@@ -1,5 +1,7 @@
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -8,7 +10,53 @@ public class Main {
     //Main
     }
     
-    public void register(){
-    
+   public static void register(){
+        //create account class
+        class Account{
+            String username;
+            String password;
+
+            public Account(String username, String password) {
+                this.username = username;
+                this.password = password;
+            }
+        }
+        
+        //create customer class
+        class Customer{
+            String name;
+            String phoneNum;
+            Account acc;
+
+            public Customer(String name, String phoneNum, Account acc) {
+                this.name = name;
+                this.phoneNum = phoneNum;
+                this.acc = acc;
+            }
+        }
+        
+        //create list of customer and variable needed
+        List<Customer> custList = new ArrayList<>();
+        String enteredUN, enteredPS, enteredName, enteredPhone;
+        Scanner scanner = new Scanner(System.in);
+        
+        //ask for input
+        System.out.println("Welcome to REGISTER");
+        System.out.println("-------------------");
+        System.out.print("Enter name: ");
+        enteredName = scanner.nextLine();
+        System.out.print("Enter phone number: ");
+        enteredPhone = scanner.nextLine();
+        System.out.print("Enter username: ");
+        enteredUN = scanner.nextLine();
+        System.out.print("Enter password: ");
+        enteredPS = scanner.nextLine();
+        
+        //create new acc and new cust
+        Account newAcc = new Account(enteredUN, enteredPS);
+        Customer newCust = new Customer(enteredName, enteredPhone, newAcc);
+        
+        //add into list
+        custList.add(newCust);
     }
  }
