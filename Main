@@ -10,6 +10,7 @@ public class Main {
     //Main
     }
     
+    //belum validate and confirmation
    public static void register(){
         //create account class
         class Account{
