@@ -6,6 +6,22 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
     //Main
+    Scanner kb = new Scanner(System.in);
+        
+        ArrayList<String> menu = new ArrayList<String>();
+        
+        int choice;
+        
+        do {
+            System.out.print("Plese enter your choice: ");
+            choice = kb.nextInt();
+        
+            if (choice < 1 || choice > 5) {
+                System.out.println("Invalid input, please enter again.");
+            }else {
+                System.out.println("Added successfully");
+            }
+        } while (choice < 1 || choice > 5);
     }
     
  }
