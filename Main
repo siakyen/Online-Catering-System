@@ -1,19 +1,28 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package agileasg;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.*;
 
-public class Main {
+public class AgileAsg {
 
-    public static void main(String[] args) throws FileNotFoundException {
-    //Main
+    public static void main(String[] args) {
+        register();
     }
-    
+
     //belum validate and confirmation
-   public static void register(){
+    public static void register() {
         //create account class
-        class Account{
+        class Account {
+
             String username;
             String password;
 
@@ -22,42 +31,196 @@ public class Main {
                 this.password = password;
             }
         }
-        
+
         //create customer class
-        class Customer{
+        class Customer {
+
             String name;
+            String email;
             String phoneNum;
+            String address;
             Account acc;
 
-            public Customer(String name, String phoneNum, Account acc) {
+            public Customer(String name, String email, String phoneNum, String address, Account acc) {
                 this.name = name;
+                this.email = email;
                 this.phoneNum = phoneNum;
+                this.address = address;
                 this.acc = acc;
             }
         }
-        
+
         //create list of customer and variable needed
         List<Customer> custList = new ArrayList<>();
-        String enteredUN, enteredPS, enteredName, enteredPhone;
+        List<String> usernameList = new ArrayList<>();
+        String enteredUN, enteredPS, enteredName, enteredPhone, enteredEmail, enteredAdd, enteredPS2;
         Scanner scanner = new Scanner(System.in);
-        
+
+        //iniatialize existed customer
+        Customer cust1 = new Customer("Phoon Winig Yan", "phoon5932@hotmail.com", "0166556158", "KL", new Account("wingyan123", "wingyan123"));
+        Customer cust2 = new Customer("Pey Hui Shan", "huishan123@hotmail.com", "0143387902", "Penang", new Account("huishan123", "huishan123"));
+        Customer cust3 = new Customer("Lim Xin Le", "xinle123@hotmail.com", "0149963256", "Johor", new Account("xinle123", "xinle123"));
+        custList.add(cust1);
+        custList.add(cust2);
+        custList.add(cust3);
+
+        for (Customer cust : custList) {
+            usernameList.add(cust.acc.username);
+        }
+
         //ask for input
         System.out.println("Welcome to REGISTER");
         System.out.println("-------------------");
-        System.out.print("Enter name: ");
-        enteredName = scanner.nextLine();
-        System.out.print("Enter phone number: ");
-        enteredPhone = scanner.nextLine();
-        System.out.print("Enter username: ");
-        enteredUN = scanner.nextLine();
-        System.out.print("Enter password: ");
+        do {
+            System.out.print("Name: ");
+            enteredName = scanner.nextLine();
+
+            //show error message if invalid
+            if (enteredName.isEmpty()) {
+                System.out.println("** Please fill in the field **");
+            } else if (!validateName(enteredName)) {
+                System.out.println("** Invalid name. Name can only contain alphabets and spaces and at least 4 characters **");
+            }
+        } while (!validateName(enteredName));
+
+        do {
+            System.out.print("Email: ");
+            enteredEmail = scanner.nextLine();
+
+            //show error message if invalid
+            if (enteredEmail.isEmpty()) {
+                System.out.println("** Please fill in the field **");
+            } else if (!validateEmail(enteredEmail)) {
+                System.out.println("** Invalid email. Email must contain '@' and '.' **");
+            }
+        } while (!validateEmail(enteredEmail));
+
+        do {
+            System.out.print("Phone number (without -): ");
+            enteredPhone = scanner.nextLine();
+
+            //show error message if invalid
+            if (enteredPhone.isEmpty()) {
+                System.out.println("** Please fill in the field **");
+            } else if (!validatePhoneNum(enteredPhone)) {
+                System.out.println("** Invalid phone number. Phone number can only contain 10 or 11 digits and start with '01' **");
+            }
+        } while (!validatePhoneNum(enteredPhone));
+
+        do {
+            System.out.print("Address: ");
+            enteredAdd = scanner.nextLine();
+
+            //show error message if invalid
+            if (enteredAdd.isEmpty()) {
+                System.out.println("** Please fill in the field **");
+            } else if (!validateAddress(enteredAdd)) {
+                System.out.println("** Invalid address. Address must at least 4 characters **");
+            }
+        } while (!validateAddress(enteredAdd));
+
+        do {
+            System.out.print("Username: ");
+            enteredUN = scanner.nextLine();
+
+            //show error message if invalid
+            if (enteredUN.isEmpty()) {
+                System.out.println("** Please fill in the field **");
+            } else if (!validateUsername(enteredUN)) {
+                System.out.println("** Invalid username. Username can only contain alphabets and digits, at least 4 characters **");
+            } else if (!validateExistedUsername(enteredUN, usernameList)) {
+                System.out.println("** Username existed. **");
+            }
+
+        } while (!validateUsername(enteredUN) || !validateExistedUsername(enteredUN, usernameList));
+
+        System.out.print("Password: ");
         enteredPS = scanner.nextLine();
-        
+        System.out.print("Re-enter password: ");
+        enteredPS2 = scanner.nextLine();
+
         //create new acc and new cust
-        Account newAcc = new Account(enteredUN, enteredPS);
-        Customer newCust = new Customer(enteredName, enteredPhone, newAcc);
-        
+//        Account newAcc = new Account(enteredUN, enteredPS);
+//        Customer newCust = new Customer(enteredName, enteredPhone, newAcc);
         //add into list
-        custList.add(newCust);
+//        custList.add(newCust);
     }
- }
+
+    public static boolean validateName(String name) {
+        //check length
+        if (name.length() < 4) {
+            return false;
+        }
+
+        //check is letter or space? (no digit and special character allowed)
+        for (int i = 0; i < name.length(); i++) {
+            if (Character.isLetter(name.charAt(i)) == false && name.charAt(i) != ' ') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean validateEmail(String email) {
+        //check the pattern of email
+        String emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+        Pattern emailPat = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = emailPat.matcher(email);
+        return matcher.find();
+    }
+
+    public static boolean validatePhoneNum(String phoneNum) {
+        //check length
+        if (phoneNum.length() != 10 && phoneNum.length() != 11) {
+            return false;
+        }
+
+        //check are all digits?
+        for (int i = 0; i < phoneNum.length(); i++) {
+            if (Character.isDigit(phoneNum.charAt(i)) == false) {
+                return false;
+            }
+        }
+
+        //check start with 0? check second digit is 1?
+        if (phoneNum.charAt(0) != '0' || phoneNum.charAt(1) != '1') {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean validateAddress(String add) {
+        //check length
+        if (add.length() < 4) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean validateUsername(String username) {
+        //check length
+        if (username.length() < 4) {
+            return false;
+        }
+
+        //check is letter or digit? (no space and special character allowed)
+        for (int i = 0; i < username.length(); i++) {
+            if (Character.isLetter(username.charAt(i)) == false && Character.isDigit(username.charAt(i)) == false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean validateExistedUsername(String username, List<String> usernameList) {
+
+        for (String un : usernameList) {
+            if (un.equals(username)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
