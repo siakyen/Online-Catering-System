@@ -8,8 +8,6 @@ public class Main {
     //Main
     Scanner kb = new Scanner(System.in);
         
-        ArrayList<String> menu = new ArrayList<String>();
-        
         int choice;
         
         do {
