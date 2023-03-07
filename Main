@@ -8,18 +8,25 @@ public class Main {
     //Main
     Scanner kb = new Scanner(System.in);
         
-        int choice;
+        ArrayList<Integer> cart = new ArrayList<>();
+        
+        int choice = 0;
+        String ans = null;
         
         do {
-            System.out.print("Plese enter your choice: ");
-            choice = kb.nextInt();
+            do {
+                System.out.print("Plese enter your choice: ");
+                choice = kb.nextInt();
         
-            if (choice < 1 || choice > 5) {
-                System.out.println("Invalid input, please enter again.");
-            }else {
-                System.out.println("Added successfully");
-            }
-        } while (choice < 1 || choice > 5);
+                if (choice < 1 || choice > 5) {
+                    System.out.println("Invalid input, please enter again.");
+                }else {
+                    System.out.println("Added successfully");
+                    cart.add(choice);
+                    System.out.print("\nDo you want to add more? (Y/N)");
+                    ans = kb.next();
+                }
+            } while (choice < 1 || choice > 5);
+        } while (ans.equals("Y"));
     }
-    
  }
