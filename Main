@@ -1,15 +1,151 @@
-import java.io.FileNotFoundException;
-import java.util.Iterator;
-import java.util.Scanner;
+package agile;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.io.FileNotFoundException;
+import java.util.Iterator;
 
+public class Agile {
 
-public class Main {
-
-    public static void main(String[] args) throws FileNotFoundException {
-    //Main
-
+    public static void main(String[] args) {
+        cart();
     }
 
- }
+    public static void cart() {
+        //Create item class
+        class Food {
+
+            String foodName;
+            int foodQuantity;
+            double foodPrice;
+
+            public Food(String foodName, int foodQuantity, double foodPrice) {
+                this.foodName = foodName;
+                this.foodQuantity = foodQuantity;
+                this.foodPrice = foodPrice;
+            }
+
+            public String getFoodName() {
+                return foodName;
+            }
+
+            public void setFoodName(String foodName) {
+                this.foodName = foodName;
+            }
+
+            public int getFoodQuantity() {
+                return foodQuantity;
+            }
+
+            public void setFoodQuantity(int foodQuantity) {
+                this.foodQuantity = foodQuantity;
+            }
+
+            public double getFoodPrice() {
+                return foodPrice;
+            }
+
+            public void setFoodPrice(double foodPrice) {
+                this.foodPrice = foodPrice;
+            }
+
+            public double calculateTotal(int quantity, Double price) {
+                return quantity * price;
+            }
+
+        }
+
+        class Beverage {
+
+            String beverageName;
+            int beverageQuantity;
+            double beveragePrice;
+
+            public Beverage(String beverageName, int beverageQuantity, double beveragePrice) {
+                this.beverageName = beverageName;
+                this.beverageQuantity = beverageQuantity;
+                this.beveragePrice = beveragePrice;
+            }
+
+            public String getBeverageName() {
+                return beverageName;
+            }
+
+            public void setBeverageName(String beverageName) {
+                this.beverageName = beverageName;
+            }
+
+            public int getBeverageQuantity() {
+                return beverageQuantity;
+            }
+
+            public void setBeverageQuantity(int beverageQuantity) {
+                this.beverageQuantity = beverageQuantity;
+            }
+
+            public double getBeveragePrice() {
+                return beveragePrice;
+            }
+
+            public void setBeveragePrice(double beveragePrice) {
+                this.beveragePrice = beveragePrice;
+            }
+
+            public double calculateTotal(int quantity, Double price) {
+                return quantity * price;
+            }
+
+        }
+
+        List<Food> foodList = new ArrayList<>();
+        List<Beverage> beverageList = new ArrayList<>();
+
+        double totalAmount = 0;
+
+        Food food1 = new Food("Fry Rice1", 1, 13.5);
+        Food food2 = new Food("Chicken Rice", 1, 22.5);
+        Food food3 = new Food("Mee Goreng", 2, 10.0);
+
+        Beverage beverage1 = new Beverage("Green tea", 1, 2.5);
+        Beverage beverage2 = new Beverage("Lemon juice", 1, 6.5);
+        Beverage beverage3 = new Beverage("Bubble tea", 1, 8.5);
+        foodList.add(food1);
+        foodList.add(food2);
+        foodList.add(food3);
+        beverageList.add(beverage1);
+        beverageList.add(beverage2);
+        beverageList.add(beverage3);
+
+        if (!(beverageList.isEmpty() && foodList.isEmpty())) {
+            System.out.println("                       My Cart                    ");
+            System.out.println("==================================================");
+            System.out.println("=       Item Name       | Quantity | Total Price =");
+            System.out.println("==================================================");
+            System.out.println("=-----------------------Food---------------------=");
+            System.out.println("==================================================");
+
+            for (Food itemFood : foodList) {
+                System.out.printf("=      %-17s|%5d     |%9.2f    =\n", itemFood.getFoodName(), itemFood.foodQuantity, itemFood.calculateTotal(itemFood.getFoodQuantity(), itemFood.getFoodPrice()));
+                totalAmount += itemFood.calculateTotal(itemFood.getFoodQuantity(), itemFood.getFoodPrice());
+            }
+            System.out.println("==================================================");
+            System.out.println("=---------------------Beverage-------------------=");
+            System.out.println("==================================================");
+            for (Beverage itemBeverage : beverageList) {
+                System.out.printf("=      %-17s|%5d     |%9.2f    =\n", itemBeverage.getBeverageName(), itemBeverage.beverageQuantity, itemBeverage.calculateTotal(itemBeverage.getBeverageQuantity(), itemBeverage.getBeveragePrice()));
+                totalAmount += itemBeverage.calculateTotal(itemBeverage.getBeverageQuantity(), itemBeverage.getBeveragePrice());
+            }
+            System.out.println("==================================================");
+            System.out.printf("=       Total amount in cart       - RM %.2f -  =\n", totalAmount);
+            System.out.println("==================================================");
+        } else {
+            System.out.println("                       My Cart                    ");
+            System.out.println("==================================================");
+            System.out.println("=       Item Name       | Quantity | Total Price =");
+            System.out.println("==================================================");
+            System.out.println("|  Currently you dont have any item in cart yet  |");
+            System.out.println("==================================================");
+        }
+    }
+}
