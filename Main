@@ -13,12 +13,12 @@ public class Main {
         int choice = 0;
         String ans = null;
         
-        do {
+         do {
             do {
                 System.out.print("Plese enter your choice: ");
                 choice = kb.nextInt();
         
-                if (choice < 1 || choice > 5) {
+                if ((choice < 101 || choice > 105) && (choice < 201 || choice > 205) && (choice < 301 || choice > 305)) {
                     System.out.println("Invalid input, please enter again.");
                 }else {
                     System.out.println("Added successfully");
@@ -26,7 +26,7 @@ public class Main {
                     System.out.print("\nDo you want to add more? (Y/N)");
                     ans = kb.next();
                 }
-            } while (choice < 1 || choice > 5);
+            } while ((choice < 101 || choice > 105) && (choice < 201 || choice > 205) && (choice < 301 || choice > 305));
         } while (ans.equals("Y"));
     }
  }
