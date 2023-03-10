@@ -1,0 +1,58 @@
+public class Customer {
+
+    String name;
+    String email;
+    String phoneNum;
+    String address;
+    Account acc;
+
+    public Customer(String name, String email, String phoneNum, String address, Account acc) {
+        this.name = name;
+        this.email = email;
+        this.phoneNum = phoneNum;
+        this.address = address;
+        this.acc = acc;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Account getAcc() {
+        return acc;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setAcc(Account acc) {
+        this.acc = acc;
+    }
+    
+    
+}
