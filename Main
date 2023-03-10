@@ -13,17 +13,28 @@ public class Agile {
     }
 
     public static void cart() {
-        //Create item class
+
+        //Create Food  class
         class Food {
 
+            String foodID;
             String foodName;
             int foodQuantity;
             double foodPrice;
 
-            public Food(String foodName, int foodQuantity, double foodPrice) {
+            public Food(String foodID, String foodName, int foodQuantity, double foodPrice) {
+                this.foodID = foodID;
                 this.foodName = foodName;
                 this.foodQuantity = foodQuantity;
                 this.foodPrice = foodPrice;
+            }
+
+            public String getFoodID() {
+                return foodID;
+            }
+
+            public void setFoodID(String foodID) {
+                this.foodID = foodID;
             }
 
             public String getFoodName() {
@@ -58,14 +69,24 @@ public class Agile {
 
         class Beverage {
 
+            String beverageID;
             String beverageName;
             int beverageQuantity;
             double beveragePrice;
 
-            public Beverage(String beverageName, int beverageQuantity, double beveragePrice) {
+            public Beverage(String beverageID, String beverageName, int beverageQuantity, double beveragePrice) {
+                this.beverageID = beverageID;
                 this.beverageName = beverageName;
                 this.beverageQuantity = beverageQuantity;
                 this.beveragePrice = beveragePrice;
+            }
+
+            public String getBeverageID() {
+                return beverageID;
+            }
+
+            public void setBeverageID(String beverageID) {
+                this.beverageID = beverageID;
             }
 
             public String getBeverageName() {
@@ -103,13 +124,13 @@ public class Agile {
 
         double totalAmount = 0;
 
-        Food food1 = new Food("Fry Rice1", 1, 13.5);
-        Food food2 = new Food("Chicken Rice", 1, 22.5);
-        Food food3 = new Food("Mee Goreng", 2, 10.0);
+        Food food1 = new Food("F001", "Fry Rice1", 1, 13.5);
+        Food food2 = new Food("F002", "Chicken Rice", 1, 22.5);
+        Food food3 = new Food("F003", "Mee Goreng", 2, 10.0);
 
-        Beverage beverage1 = new Beverage("Green tea", 1, 2.5);
-        Beverage beverage2 = new Beverage("Lemon juice", 1, 6.5);
-        Beverage beverage3 = new Beverage("Bubble tea", 1, 8.5);
+        Beverage beverage1 = new Beverage("B001", "Green tea", 1, 2.5);
+        Beverage beverage2 = new Beverage("B002", "Lemon juice", 2, 6.5);
+        Beverage beverage3 = new Beverage("B003", "Bubble tea", 1, 8.5);
         foodList.add(food1);
         foodList.add(food2);
         foodList.add(food3);
@@ -118,27 +139,27 @@ public class Agile {
         beverageList.add(beverage3);
 
         if (!(beverageList.isEmpty() && foodList.isEmpty())) {
-            System.out.println("                       My Cart                    ");
-            System.out.println("==================================================");
-            System.out.println("=       Item Name       | Quantity | Total Price =");
-            System.out.println("==================================================");
-            System.out.println("=-----------------------Food---------------------=");
-            System.out.println("==================================================");
+            System.out.println("                                 My Cart                                ");
+            System.out.println("========================================================================");
+            System.out.println("= Item ID |        Item Name       | Quantity | Unit Price | Sub-Total =");
+            System.out.println("========================================================================");
+            System.out.println("=---------------------------------Food---------------------------------=");
+            System.out.println("========================================================================");
 
             for (Food itemFood : foodList) {
-                System.out.printf("=      %-17s|%5d     |%9.2f    =\n", itemFood.getFoodName(), itemFood.foodQuantity, itemFood.calculateTotal(itemFood.getFoodQuantity(), itemFood.getFoodPrice()));
+                System.out.printf("=  %5s  |       %-17s|%5d     |   %3.2f    |%8.2f   =\n", itemFood.getFoodID(), itemFood.getFoodName(), itemFood.foodQuantity, itemFood.foodPrice, itemFood.calculateTotal(itemFood.getFoodQuantity(), itemFood.getFoodPrice()));
                 totalAmount += itemFood.calculateTotal(itemFood.getFoodQuantity(), itemFood.getFoodPrice());
             }
-            System.out.println("==================================================");
-            System.out.println("=---------------------Beverage-------------------=");
-            System.out.println("==================================================");
+            System.out.println("========================================================================");
+            System.out.println("=-------------------------------Beverage-------------------------------=");
+            System.out.println("========================================================================");
             for (Beverage itemBeverage : beverageList) {
-                System.out.printf("=      %-17s|%5d     |%9.2f    =\n", itemBeverage.getBeverageName(), itemBeverage.beverageQuantity, itemBeverage.calculateTotal(itemBeverage.getBeverageQuantity(), itemBeverage.getBeveragePrice()));
+                System.out.printf("=  %5s  |      %-17s |%5d     |%9.2f    |%7.2f   =\n", itemBeverage.beverageID, itemBeverage.getBeverageName(), itemBeverage.beverageQuantity, itemBeverage.getBeveragePrice(), itemBeverage.calculateTotal(itemBeverage.getBeverageQuantity(), itemBeverage.getBeveragePrice()));
                 totalAmount += itemBeverage.calculateTotal(itemBeverage.getBeverageQuantity(), itemBeverage.getBeveragePrice());
             }
-            System.out.println("==================================================");
-            System.out.printf("=       Total amount in cart       - RM %.2f -  =\n", totalAmount);
-            System.out.println("==================================================");
+            System.out.println("========================================================================");
+            System.out.printf("=            Total amount in cart                           RM %3.2f   =\n", totalAmount);
+            System.out.println("========================================================================");
         } else {
             System.out.println("                       My Cart                    ");
             System.out.println("==================================================");
