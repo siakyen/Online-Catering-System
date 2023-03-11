@@ -1,3 +1,4 @@
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,6 +40,8 @@ public class Main {
                 addCart(foodList, cart);
             } else if (option.equals("5")) {
                 viewCart(cart);
+            } else if (option.equals("6")) {
+                System.out.println("** Thanks and Bye **");
             } else {
                 System.out.println("** No such option **");
             }
