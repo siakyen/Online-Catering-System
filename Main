@@ -8,27 +8,52 @@ public class Main {
     //Main
     Scanner kb = new Scanner(System.in);
         
-        ArrayList<Integer> cart = new ArrayList<>();
-        
-        int choice = 0;
+        String choice, quantity;
         String ans = null;
-        
-         do {
+        Item itemFound = new Item();
+        boolean valid = false;
+
+        do {
             do {
-                System.out.print("Plese enter your choice: ");
-                choice = kb.nextInt();
-        
-                if (choice == 106 || choice == 206 || choice == 306) {
-                    System.out.println("The item is out of stock, please enter others.\n");
-                }else if ((choice < 101 || choice > 105) && (choice < 201 || choice > 205) && (choice < 301 || choice > 305)) {
-                    System.out.println("Invalid input, please enter again.\n");
-                }else {
-                    System.out.println("Added successfully");
-                    cart.add(choice);
-                    System.out.print("\nDo you want to add more? (Y/N): ");
-                    ans = kb.next();
+                System.out.print("Plese enter the item ID: ");
+                choice = kb.nextLine();
+
+                int found = 0;
+                int available = 0;
+
+                for (Item item : foodList) {
+                    if (choice.equalsIgnoreCase(item.getItemID())) {
+                        found++;
+                        if (item.getAvailability()) {
+                            available++;
+                            itemFound = item;
+                        }
+                    }
                 }
-            } while ((choice < 101 || choice > 105) && (choice < 201 || choice > 205) && (choice < 301 || choice > 305));
+
+                if (found == 0) {
+                    System.out.println("** Invalid input, please enter again **\n");
+                } else if (available == 0) {
+                    System.out.println("** The item is out of stock, please enter others **\n");
+                } else {
+                    valid = true;
+                    do {
+                        System.out.print("Please enter quantity: ");
+                        quantity = kb.nextLine();
+
+                        if (!validateQuantity(quantity)) {
+                            System.out.println("** Invalid quantity, please enter again **\n");
+                        }
+                    } while (!validateQuantity(quantity));
+
+                    cart.addItem(new OrderItem(itemFound, Integer.parseInt(quantity)));
+                    System.out.println("** Added successfully! **");
+                    System.out.print("\nDo you want to add more? (Y = yes): ");
+                    ans = kb.nextLine();
+                }
+
+            } while (!valid);
         } while (ans.equals("Y"));
+
     }
  }
