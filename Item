@@ -1,0 +1,57 @@
+public class Item {
+    String itemID;
+    String itemName;
+    double itemPrice;
+    String category;
+    Boolean availability;
+
+    public Item() {
+    }
+
+    public Item(String itemID, String itemName, double itemPrice, String category) {
+        this.itemID = itemID;
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
+        this.category = category;
+        this.availability = true;
+    }
+
+    public String getItemID() {
+        return itemID;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public double getItemPrice() {
+        return itemPrice;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public Boolean getAvailability() {
+        return availability;
+    }
+
+    public void setItemID(String itemID) {
+        this.itemID = itemID;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public void setItemPrice(double itemPrice) {
+        this.itemPrice = itemPrice;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setAvailability(Boolean availability) {
+        this.availability = availability;
+    }
