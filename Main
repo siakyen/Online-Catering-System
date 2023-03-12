@@ -92,7 +92,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         //ask for input
-        System.out.println("Welcome to REGISTER");
+        System.out.println("\nWelcome to REGISTER");
         System.out.println("-------------------");
         do {
             System.out.print("Name: ");
@@ -211,7 +211,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         //ask for input
-        System.out.println("Welcome to LOGIN");
+        System.out.println("\nWelcome to LOGIN");
         System.out.println("-----------------");
         do {
             System.out.print("Username: ");
