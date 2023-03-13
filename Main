@@ -54,6 +54,26 @@ public class Main {
 
             } while (!valid);
         } while (ans.equals("Y"));
+    }
+    
+    public static boolean validateQuantity(String quantity) {
+        if (quantity.isEmpty()) {
+            return false;
+        }
 
+        //check are all digits?
+        for (int i = 0; i < quantity.length(); i++) {
+            if (Character.isDigit(quantity.charAt(i)) == false) {
+                return false;
+            }
+        }
+
+        int quan = Integer.parseInt(quantity);
+
+        if (quan < 1) {
+            return false;
+        }
+
+        return true;
     }
  }
