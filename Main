@@ -1,3 +1,5 @@
+package agileasg;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -5,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.*;
 
-public class Main {
+public class AgileAsg {
 
     public static void main(String[] args) {
         List<Customer> custList = new ArrayList<>();
@@ -25,7 +27,8 @@ public class Main {
             System.out.println("3. View Menu");
             System.out.println("4. Add Cart");
             System.out.println("5. View Cart");
-            System.out.println("6. Exit");
+            System.out.println("6. Update Cart");
+            System.out.println("7. Exit");
             System.out.print("\nPlease enter your option: ");
             option = scanner.nextLine();
 
@@ -40,6 +43,8 @@ public class Main {
             } else if (option.equals("5")) {
                 viewCart(cart);
             } else if (option.equals("6")) {
+                updateCart(cart);
+            } else if (option.equals("7")) {
                 System.out.println("** Thanks and Bye **");
             } else {
                 System.out.println("** No such option **");
@@ -47,6 +52,12 @@ public class Main {
         } while (!option.equals("6"));
     }
 
+    
+    //update cart function
+    public static void updateCart(Cart cart){
+        System.out.println("Please enter the item code of the item that you want to update");
+    }
+    
     public static List<Customer> initialCust(List<Customer> custList) {
         Customer cust1 = new Customer("Phoon Winig Yan", "phoon5932@hotmail.com", "0166556158", "KL", new Account("wingyan123", "wingyan123", "active"));
         Customer cust2 = new Customer("Pey Hui Shan", "huishan123@hotmail.com", "0143387902", "Penang", new Account("huishan123", "huishan123", "inactive"));
@@ -211,7 +222,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         //ask for input
-        System.out.println("\nWelcome to LOGIN");
+        System.out.println("Welcome to LOGIN");
         System.out.println("-----------------");
         do {
             System.out.print("Username: ");
@@ -271,17 +282,32 @@ public class Main {
 
                         if (!validateQuantity(quantity)) {
                             System.out.println("** Invalid quantity, please enter again **\n");
+                        } else if (!validateLargeQuantity(quantity)) {
+                            System.out.println("** Quantity cannot more than 50, please enter again **\n");
                         }
-                    } while (!validateQuantity(quantity));
+                    } while (!validateQuantity(quantity) || !validateLargeQuantity(quantity));
 
-                    cart.addItem(new OrderItem(itemFound, Integer.parseInt(quantity)));
+                    //when input are valid
+                    //check is the item existed in the cart?
+                    boolean exist = false;
+                    for (OrderItem item : cart.getItemList()) {
+                        if (item.getItem().getItemID().equalsIgnoreCase(itemFound.getItemID())) {
+                            exist = true;
+                            item.updateQuantity(Integer.parseInt(quantity));
+                        }
+                    }
+
+                    if (!exist) {
+                        cart.addItem(new OrderItem(itemFound, Integer.parseInt(quantity)));
+                    }
+
                     System.out.println("** Added successfully! **");
                     System.out.print("\nDo you want to add more? (Y = yes): ");
                     ans = kb.nextLine();
                 }
 
             } while (!valid);
-        } while (ans.equals("Y"));
+        } while (ans.equalsIgnoreCase("Y"));
     }
 
     //view cart function
@@ -295,7 +321,7 @@ public class Main {
             System.out.println("========================================================================");
 
             for (OrderItem orderItem : cart.getItemList()) {
-                System.out.printf("|  %5s  |       %-17s|%5d     |   %3.2f    |%8.2f   |\n", orderItem.getItem().getItemID(), orderItem.getItem().getItemName(), orderItem.getQuantity(), orderItem.getItem().getItemPrice(), orderItem.getSubtotal());
+                System.out.printf("|  %5s  |       %-17s|%5d     |   %5.2f    |%8.2f   |\n", orderItem.getItem().getItemID(), orderItem.getItem().getItemName(), orderItem.getQuantity(), orderItem.getItem().getItemPrice(), orderItem.getSubtotal());
                 totalAmount += orderItem.getSubtotal();
             }
 
@@ -373,6 +399,16 @@ public class Main {
     }
 
 //method for validation
+    public static boolean validateLargeQuantity(String quantity) {
+        int quan = Integer.parseInt(quantity);
+
+        if (quan >= 50) {
+            return false;
+        }
+
+        return true;
+    }
+
     public static boolean validateQuantity(String quantity) {
         if (quantity.isEmpty()) {
             return false;
