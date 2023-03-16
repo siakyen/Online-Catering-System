@@ -1,6 +1,3 @@
-
-package agileasg;
-
 public class OrderItem {
     Item item;
     int quantity;
