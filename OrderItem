@@ -1,3 +1,6 @@
+
+package agileasg;
+
 public class OrderItem {
     Item item;
     int quantity;
@@ -31,6 +34,11 @@ public class OrderItem {
 
     public void setSubtotal(double subtotal) {
         this.subtotal = subtotal;
+    }
+    
+    public void updateQuantity(int newQty){
+        this.quantity += newQty;
+        this.subtotal = this.quantity * this.item.getItemPrice();
     }
     
 }
