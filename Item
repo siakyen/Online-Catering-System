@@ -56,5 +56,8 @@ public class Item {
     public void setAvailability(Boolean availability) {
         this.availability = availability;
     }
-
+    
+    public String toString(){
+    }
+    
 }
