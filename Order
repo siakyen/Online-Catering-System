@@ -1,0 +1,76 @@
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Order {
+
+    String id;
+    List<OrderItem> items = new ArrayList<>();
+    int totalItem;
+    String status;
+    LocalDate date;
+    double totalPrice;
+
+    public Order(String id, List<OrderItem> items, String status) {
+        this.id = id;
+        this.items = items;
+        this.totalItem = items.size();
+        this.status = status;
+        this.date = LocalDate.now();
+        
+        this.totalPrice = 0;
+        for(OrderItem item : items){
+            totalPrice += item.getSubtotal();
+        }
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public List<OrderItem> getItems() {
+        return items;
+    }
+
+    public int getTotalItem() {
+        return totalItem;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
+    }
+
+    public void setTotalItem(int totalItem) {
+        this.totalItem = totalItem;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    
+}
