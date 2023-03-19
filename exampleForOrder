@@ -1,0 +1,84 @@
+
+package agileasg;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class exampleForOrder {
+
+    //the main method
+    public static void main(String[] args) {
+        List<Order> orderList = new ArrayList<>();
+        List<Item> foodList = new ArrayList<>();
+        initialFood(foodList);
+        initialOrder(orderList, foodList);
+        
+        //call your own method here
+    }
+
+    //to iniatial the existed record
+    public static void initialFood(List<Item> foodList) {
+        Item food1 = new Item("F001", "Fry Rice", 13.5, "Food");
+        Item food2 = new Item("F002", "Chicken Rice", 22.5, "Food");
+        Item food3 = new Item("F003", "Mee Goreng", 10.0, "Food");
+        Item beverage1 = new Item("B001", "Green tea", 2.5, "Beverage");
+        Item beverage2 = new Item("B002", "Lemon juice", 6.5, "Beverage");
+        Item beverage3 = new Item("B003", "Bubble tea", 8.5, "Beverage");
+        Item dessert1 = new Item("D001", "Oreo Cake", 11.9, "Dessert");
+        Item dessert2 = new Item("D002", "Baked cheesecake", 13.9, "Dessert");
+        Item dessert3 = new Item("D003", "Matcha Cake", 11.9, "Dessert");
+
+        food2.setAvailability(Boolean.FALSE);
+        beverage2.setAvailability(Boolean.FALSE);
+
+        foodList.add(food1);
+        foodList.add(food2);
+        foodList.add(food3);
+        foodList.add(beverage1);
+        foodList.add(beverage2);
+        foodList.add(beverage3);
+        foodList.add(dessert1);
+        foodList.add(dessert2);
+        foodList.add(dessert3);
+    }
+
+    public static void initialOrder(List<Order> orderList, List<Item> foodList) {
+        OrderItem items1 = new OrderItem(foodList.get(2), 2);
+        OrderItem items2 = new OrderItem(foodList.get(1), 1);
+        OrderItem items3 = new OrderItem(foodList.get(0), 1);
+        OrderItem items4 = new OrderItem(foodList.get(2), 1);
+        OrderItem items5 = new OrderItem(foodList.get(3), 3);
+        OrderItem items6 = new OrderItem(foodList.get(4), 1);
+        OrderItem items7 = new OrderItem(foodList.get(0), 1);
+        OrderItem items8 = new OrderItem(foodList.get(4), 2);
+        OrderItem items9 = new OrderItem(foodList.get(3), 1);
+        OrderItem items10 = new OrderItem(foodList.get(1), 2);
+        
+        List<OrderItem> list1 = new ArrayList<>();
+        List<OrderItem> list2 = new ArrayList<>();
+        List<OrderItem> list3 = new ArrayList<>();
+        List<OrderItem> list4 = new ArrayList<>();
+        
+        list1.add(items1);
+        list1.add(items2);
+        list2.add(items3);
+        list2.add(items4);
+        list2.add(items5);
+        list3.add(items6);
+        list3.add(items7);
+        list3.add(items8);
+        list4.add(items9);
+        list4.add(items10);
+
+        Order order1 = new Order("O001", list1, "Completed");
+        Order order2 = new Order("O002", list2, "Cancelled");
+        Order order3 = new Order("O003", list3, "Completed");
+        Order order4 = new Order("O004", list4, "Preparing");
+        
+        orderList.add(order1);
+        orderList.add(order2);
+        orderList.add(order3);
+        orderList.add(order4);
+
+    }
+}
