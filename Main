@@ -10,7 +10,9 @@ public class Main {
         List<Customer> custList = new ArrayList<>();
         custList = initialCust(custList);
         custList = register(custList);
+        Cart cart = new Cart();
         login(custList);
+        updateCart(cart);
     }
 
     public static List<Customer> initialCust(List<Customer> custList) {
@@ -315,5 +317,53 @@ public class Main {
         }
 
         return true;
+    }
+    
+    public static void updateCart(Cart cart) {
+        Scanner scanner = new Scanner(System.in);
+        String code;
+        boolean existed = false;
+        String qty;
+        OrderItem selected = new OrderItem();
+
+        if (cart.getItemList().isEmpty()) {
+            System.out.println("\n** Currently no item in the cart **");
+        } else {
+
+            System.out.print("\nPlease enter the item ID of the item that you want to update: ");
+            code = scanner.nextLine();
+
+            //validate code
+            for (OrderItem item : cart.getItemList()) {
+                if (item.getItem().getItemID().equalsIgnoreCase(code)) {
+                    existed = true;
+                    selected = item;
+                }
+            }
+
+            if (!existed) {
+                System.out.println("\n** No such item ID, you may refer to your cart **");
+            } else {
+                do {
+                    System.out.print("\nPlease enter new quantity (0 = remove): ");
+                    qty = scanner.nextLine();
+
+                    if (!validateUpdateQty(qty)) {
+                        System.out.println("\n** Invalid quantity, minimum is 0, maxixmum is 50 **");
+                    }
+
+                } while (!validateUpdateQty(qty));
+
+                int quantity = Integer.parseInt(qty);
+
+                if (quantity == 0) {
+                    cart.itemList.remove(selected);
+                } else {
+                    selected.replaceQuantity(quantity);
+                }
+
+                System.out.println("\n** Cart updated successfully! **");
+            }
+        }
     }
 }
