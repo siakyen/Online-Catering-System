@@ -13,8 +13,8 @@ public class AgileAsg {
         List<Customer> custList = new ArrayList<>();
         List<Item> foodList = new ArrayList<>();
         Cart cart = new Cart();
-        foodList = initialFood(foodList);
-        custList = initialCust(custList);
+        initialFood(foodList);
+        initialCust(custList);
         Scanner scanner = new Scanner(System.in);
         String option;
 
@@ -58,17 +58,16 @@ public class AgileAsg {
         System.out.println("Please enter the item code of the item that you want to update");
     }
     
-    public static List<Customer> initialCust(List<Customer> custList) {
+    public static void initialCust(List<Customer> custList) {
         Customer cust1 = new Customer("Phoon Winig Yan", "phoon5932@hotmail.com", "0166556158", "KL", new Account("wingyan123", "wingyan123", "active"));
         Customer cust2 = new Customer("Pey Hui Shan", "huishan123@hotmail.com", "0143387902", "Penang", new Account("huishan123", "huishan123", "inactive"));
         Customer cust3 = new Customer("Lim Xin Le", "xinle123@hotmail.com", "0149963256", "Johor", new Account("xinle123", "xinle123", "active"));
         custList.add(cust1);
         custList.add(cust2);
         custList.add(cust3);
-        return custList;
     }
 
-    public static List<Item> initialFood(List<Item> foodList) {
+    public static void initialFood(List<Item> foodList) {
         Item food1 = new Item("F001", "Fry Rice", 13.5, "Food");
         Item food2 = new Item("F002", "Chicken Rice", 22.5, "Food");
         Item food3 = new Item("F003", "Mee Goreng", 10.0, "Food");
@@ -92,7 +91,7 @@ public class AgileAsg {
         foodList.add(dessert2);
         foodList.add(dessert3);
 
-        return foodList;
+
     }
 
     //register function
