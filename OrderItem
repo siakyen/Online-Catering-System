@@ -1,8 +1,12 @@
 public class OrderItem {
+
     Item item;
     int quantity;
     double subtotal;
 
+    public OrderItem(){
+    }
+    
     public OrderItem(Item item, int quantity) {
         this.item = item;
         this.quantity = quantity;
@@ -32,10 +36,15 @@ public class OrderItem {
     public void setSubtotal(double subtotal) {
         this.subtotal = subtotal;
     }
-    
-    public void updateQuantity(int newQty){
+
+    public void updateQuantity(int newQty) {
         this.quantity += newQty;
         this.subtotal = this.quantity * this.item.getItemPrice();
     }
-    
+
+    public void replaceQuantity(int newQty) {
+        this.quantity = newQty;
+        this.subtotal = this.quantity * this.item.getItemPrice();
+    }
+
 }
