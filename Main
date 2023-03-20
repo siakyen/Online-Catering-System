@@ -6,4 +6,7 @@ public static void searchItem(){
          System.out.println("------------------------------------");
          System.out.println("Please Enter Item ID :");
          choice = scanner.nextLine();
+         
+         if (){
+         }
     }
