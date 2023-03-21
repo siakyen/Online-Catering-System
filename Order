@@ -23,6 +23,19 @@ public class Order {
             totalPrice += item.getSubtotal();
         }
     }
+    
+        public Order(String id, List<OrderItem> items, String status, LocalDate date) {
+        this.id = id;
+        this.items = items;
+        this.totalItem = items.size();
+        this.status = status;
+        this.date = date;
+        
+        this.totalPrice = 0;
+        for(OrderItem item : items){
+            totalPrice += item.getSubtotal();
+        }
+    }
 
     public String getId() {
         return id;
@@ -72,5 +85,4 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    
 }
