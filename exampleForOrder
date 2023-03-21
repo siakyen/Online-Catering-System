@@ -1,6 +1,8 @@
 
 package agileasg;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,9 +72,9 @@ public class exampleForOrder {
         list4.add(items9);
         list4.add(items10);
 
-        Order order1 = new Order("O001", list1, "Completed");
-        Order order2 = new Order("O002", list2, "Cancelled");
-        Order order3 = new Order("O003", list3, "Completed");
+        Order order1 = new Order("O001", list1, "Completed", LocalDate.of(2023, 1, 4));
+        Order order2 = new Order("O002", list2, "Cancelled", LocalDate.of(2023, 1, 26));
+        Order order3 = new Order("O003", list3, "Completed", LocalDate.of(2023, 3, 1));
         Order order4 = new Order("O004", list4, "Preparing");
         
         orderList.add(order1);
