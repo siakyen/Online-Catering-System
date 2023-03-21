@@ -153,7 +153,7 @@ public class Main {
 
         //ask for input
         System.out.println("Welcome to LOGIN");
-        System.out.println("------------------");
+        System.out.println("-----------------");
         do {
             System.out.print("Username: ");
             enteredUN = scanner.nextLine();
