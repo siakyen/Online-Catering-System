@@ -1,10 +1,10 @@
-
-package agileasg;
+package agile;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class exampleForOrder {
 
@@ -14,8 +14,220 @@ public class exampleForOrder {
         List<Item> foodList = new ArrayList<>();
         initialFood(foodList);
         initialOrder(orderList, foodList);
-        
+
         //call your own method here
+        viewOrderhistory(orderList);
+        searchOrderhistory(orderList);
+    }
+
+    public static void searchOrderhistory(List<Order> orderList) {
+        Scanner kb = new Scanner(System.in);
+        boolean found = false;
+        int day, month, year;
+        String dayS, yearS, monthS;
+        boolean validation = false;
+
+        if (orderList.isEmpty()) {
+            System.out.println("\t    There is no any order made");
+        } else {
+
+            System.out.println("Please enter date to search the order history");
+            do {
+                System.out.printf("Day: ");
+                dayS = kb.nextLine();
+                validation = validateDay(dayS);
+                if (dayS.isEmpty()) {
+                    validation = false;
+                    System.out.println("\nPlease fill in the day ");
+                } else if (validation == false) {
+                    System.out.println("\nInvalid Date Format");
+                }
+            } while (validation == false);
+
+            do {
+                System.out.printf("Month: ");
+                monthS = kb.nextLine();
+                validation = validateMonth(dayS, monthS);
+                if (monthS.isEmpty()) {
+                    validation = false;
+                    System.out.println("\nPlease fill in the month ");
+                } else if (validation == false) {
+                    System.out.println("\nInvalid Date Format");
+                }
+            } while (validation == false);
+
+            do {
+                System.out.printf("Year: ");
+                yearS = kb.nextLine();
+                validation = validateYear(yearS);
+                if (yearS.isEmpty()) {
+                    validation = false;
+                    System.out.println("\nPlease fill in the year ");
+                } else if (validation == false) {
+                    System.out.println("\nInvalid Date Format");
+                }
+            } while (validation == false);
+
+            day = Integer.parseInt(dayS);
+            month = Integer.parseInt(monthS);
+            year = Integer.parseInt(yearS);
+            LocalDate date = LocalDate.of(year, month, day);
+            if (validation == true) {
+                System.out.println("\n                   Order History                  ");
+                System.out.print("---------------------------------------------------\n");
+                System.out.println("===================================================");
+                System.out.println("= Order ID |   Status  |    Date    | Total Price =");
+                System.out.println("===================================================");
+                for (Order order : orderList) {
+                    if (order.date.isEqual(date)) {
+                        System.out.printf("=   %4s   | %9s | %tF |   RM%6.2f  =\n", order.id, order.status, order.date, order.totalPrice);
+                        found = true;
+                    }
+                }
+                if (found == false) {
+                    System.out.println("=               No record found!!!                =");
+                }
+                System.out.println("===================================================");
+            } else {
+                System.out.println("Please enter a ");
+            }
+        }
+    }
+
+    public static boolean validateDay(String day) {
+
+        int dayI = Integer.parseInt(day);
+
+        if (dayI <= 0 || dayI > 31) {
+            return false;
+        }
+        //check are all digits?
+        for (int i = 0; i < day.length(); i++) {
+            if (Character.isDigit(day.charAt(i)) == false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean validateMonth(String day, String month) {
+
+        int monthI = Integer.parseInt(month);
+        int dayI = Integer.parseInt(day);
+
+        if (monthI < 0 || monthI > 12) {
+            return false;
+        }
+
+        if (monthI == 2) {
+            if (dayI > 28) {
+                return false;
+            }
+        } else if (monthI == 4 || monthI == 6 || monthI == 9 || monthI == 11) {
+            if (dayI == 31) {
+                return false;
+            }
+        }
+
+        //check are all digits?
+        for (int i = 0; i < month.length(); i++) {
+            if (Character.isDigit(month.charAt(i)) == false) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean validateYear(String year) {
+
+        //check length
+        if (year.length() != 4) {
+            return false;
+        }
+
+        //check are all digits?
+        for (int i = 0; i < year.length(); i++) {
+            if (Character.isDigit(year.charAt(i)) == false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void viewOrderhistory(List<Order> orderList) {
+        int number = 1;
+        String stringMonth = "";
+
+        if (!orderList.isEmpty()) {
+            System.out.println("            View Order History by Month            ");
+            System.out.println("---------------------------------------------------");
+
+            do {
+                int record = 0;
+                switch (number) {
+                    case 1:
+                        stringMonth = "January";
+                        break;
+                    case 2:
+                        stringMonth = "February";
+                        break;
+                    case 3:
+                        stringMonth = "March";
+                        break;
+                    case 4:
+                        stringMonth = "April";
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        stringMonth = "June";
+                        break;
+                    case 7:
+                        stringMonth = "July";
+                        break;
+                    case 8:
+                        stringMonth = "August";
+                        break;
+                    case 9:
+                        stringMonth = "September";
+                        break;
+                    case 10:
+                        stringMonth = "October";
+                        break;
+                    case 11:
+                        stringMonth = "November";
+                        break;
+                    case 12:
+                        stringMonth = "December";
+                        break;
+
+                }
+
+                System.out.println("\n===================================================");
+                System.out.printf("=                 Month: %-10s               =\n", stringMonth);
+                System.out.println("===================================================");
+                System.out.println("= Order ID |   Status  |    Date    | Total Price =");
+                System.out.println("===================================================");
+                for (Order order : orderList) {
+                    int month = order.date.getMonthValue();
+                    if (number == month) {
+                        System.out.printf("=   %4s   | %9s | %tF |   RM%6.2f  =\n", order.id, order.status, order.date, order.totalPrice);
+                        record++;
+                    }
+                }
+
+                if (record == 0) {
+                    System.out.println("=       There is no any record in this month      =");
+
+                }
+                System.out.println("===================================================\n");
+                number++;
+
+            } while (number < 13);
+        } else {
+            System.out.println("\t    There is no any order made");
+        }
     }
 
     //to iniatial the existed record
@@ -55,12 +267,18 @@ public class exampleForOrder {
         OrderItem items8 = new OrderItem(foodList.get(4), 2);
         OrderItem items9 = new OrderItem(foodList.get(3), 1);
         OrderItem items10 = new OrderItem(foodList.get(1), 2);
-        
+
         List<OrderItem> list1 = new ArrayList<>();
         List<OrderItem> list2 = new ArrayList<>();
         List<OrderItem> list3 = new ArrayList<>();
         List<OrderItem> list4 = new ArrayList<>();
-        
+        List<OrderItem> list5 = new ArrayList<>();
+        List<OrderItem> list6 = new ArrayList<>();
+        List<OrderItem> list7 = new ArrayList<>();
+        List<OrderItem> list8 = new ArrayList<>();
+        List<OrderItem> list9 = new ArrayList<>();
+        List<OrderItem> list10 = new ArrayList<>();
+
         list1.add(items1);
         list1.add(items2);
         list2.add(items3);
@@ -71,16 +289,43 @@ public class exampleForOrder {
         list3.add(items8);
         list4.add(items9);
         list4.add(items10);
+        list5.add(items1);
+        list5.add(items2);
+        list5.add(items3);
+        list6.add(items6);
+        list6.add(items5);
+        list6.add(items4);
+        list7.add(items4);
+        list7.add(items5);
+        list7.add(items6);
+        list7.add(items7);
+        list8.add(items5);
+        list9.add(items9);
+        list9.add(items10);
+        list10.add(items1);
+        list10.add(items10);
 
         Order order1 = new Order("O001", list1, "Completed", LocalDate.of(2023, 1, 4));
         Order order2 = new Order("O002", list2, "Cancelled", LocalDate.of(2023, 1, 26));
-        Order order3 = new Order("O003", list3, "Completed", LocalDate.of(2023, 3, 1));
-        Order order4 = new Order("O004", list4, "Preparing");
-        
+        Order order3 = new Order("O003", list3, "Completed", LocalDate.of(2023, 3, 22));
+        Order order4 = new Order("O004", list4, "Preparing", LocalDate.of(2023, 3, 22));
+        Order order5 = new Order("O005", list5, "Preparing", LocalDate.of(2023, 10, 9));
+        Order order6 = new Order("O006", list6, "Preparing", LocalDate.of(2023, 6, 12));
+        Order order7 = new Order("O007", list7, "Completed", LocalDate.of(2023, 12, 21));
+        Order order8 = new Order("O008", list8, "Preparing", LocalDate.of(2023, 8, 15));
+        Order order9 = new Order("O009", list9, "Completed", LocalDate.of(2023, 8, 8));
+        Order order10 = new Order("O010", list10, "Cancelled", LocalDate.of(2023, 9, 17));
+
         orderList.add(order1);
         orderList.add(order2);
         orderList.add(order3);
         orderList.add(order4);
+        orderList.add(order5);
+        orderList.add(order6);
+        orderList.add(order7);
+        orderList.add(order8);
+        orderList.add(order9);
+        orderList.add(order10);
 
     }
 }
