@@ -6,7 +6,44 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
     //Main
-    Scanner kb = new Scanner(System.in);
-           
+        Scanner kb = new Scanner(System.in);
+        double totalBeforeTax = 0;
+        double serviceTax;
+        double totalAmount;
+        String confirm;
+        
+        if (!summary.isEmpty()) {
+            System.out.println("========================================================================");
+            System.out.println("|                              Order Summary                           |");
+            System.out.println("========================================================================");
+            System.out.println("| Item ID |        Item Name       | Quantity | Unit Price | Sub-Total |");
+            System.out.println("------------------------------------------------------------------------");
+
+            for (OrderItem orderItem : summary.getItemList()) {
+                System.out.printf("|  %5s  |       %-17s|%5d     |   %3.2f    |%8.2f   |\n", orderItem.getItem().getItemID(), orderItem.getItem().getItemName(), orderItem.getQuantity(), orderItem.getItem().getItemPrice(), orderItem.getSubtotal());
+                totalBeforeTax += orderItem.getSubtotal();
+            }
+            
+            serviceTax = totalBeforeTax * 0.06;
+            totalAmount = (totalBeforeTax * 1.06) + 2 + 3;
+            System.out.println("------------------------------------------------------------------------");
+            System.out.printf("| Service Tax (6%%):                                         RM %3.2f    |\n", serviceTax);
+            System.out.println("| Container Fee   :                                         RM 2.00    |");
+            System.out.println("| Delivery Fee    :                                         RM 3.00    |");
+            System.out.println("========================================================================");
+            System.out.printf("|            Total amount in cart                           RM %3.2f   |\n", totalAmount);
+            System.out.println("========================================================================");
+            
+            System.out.print("Do you confirm for checkout: ");
+            confirm = kb.nextLine();
+            
+            if (confirm.equals("Y")) {
+                System.out.println("Please proceed to the next step.");
+            } else {
+                System.out.println("Checkout has been cancelled.");
+            }
+        } else {
+            System.out.println("\n** No order summary found **");
+        }
     }
  }
