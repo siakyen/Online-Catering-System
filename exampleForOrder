@@ -16,6 +16,7 @@ public class exampleForOrder {
         initialOrder(orderList, foodList);
         
         //call your own method here
+        viewOrderStatus(orderList);
     }
 
     //to iniatial the existed record
@@ -82,5 +83,17 @@ public class exampleForOrder {
         orderList.add(order3);
         orderList.add(order4);
 
+    }
+    
+    public static void viewOrderStatus(List<Order> orderList){
+        for (Order order : orderList) {
+            System.out.println("Date of the Order  : "+ order.getDate());
+            System.out.printf("|============|=========================|\n");
+            System.out.printf("|  Order ID  |         Status          |\n");
+            System.out.printf("|============|=========================|\n");
+            System.out.printf("|   %5s    |       %-17s |\n", order.id, order.status);
+            System.out.printf("|============|=========================|\n\n");
+                
+            }
     }
 }
