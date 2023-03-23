@@ -1,4 +1,4 @@
-ublic static void searchItem(List<Item> foodList){
+public static void searchItem(List<Item> foodList){
         String choiceS;
         Scanner scanner = new Scanner(System.in);
         
@@ -15,7 +15,7 @@ ublic static void searchItem(List<Item> foodList){
          
             for (Item item : foodList) {
                        if (choiceS.equalsIgnoreCase(item.getItemID())) {
-                           System.out.printf("|| %s. %-36s|%26.2f  || \n",item.getItemID(),item.getItemName(), item.itemPrice);
+                           System.out.printf("%s. %-30s RM%2.2f  \n",item.getItemID(),item.getItemName(), item.itemPrice);
                             found++;
                        }
 
