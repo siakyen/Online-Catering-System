@@ -1,46 +1,85 @@
-package assignmentasd;
+//search order history
+    public static void searchOrderhistory(List<Order> orderList) {
+        Scanner kb = new Scanner(System.in);
+        boolean found = false;
+        int day, month, year;
+        String dayS, yearS, monthS;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-
-/**
- *
- * @author xiaky
- */
- 
-public class AssignmentASD {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        Cart cart = new Cart();
-        viewCart(cart);
-    }
-
-    //view cart function
-    public static void viewCart(Cart cart) {
-        double totalAmount = 0;
-
-        if (!cart.isEmpty()) {
-            System.out.println("\n                                 My Cart                                ");
-            System.out.println("========================================================================");
-            System.out.println("| Item ID |        Item Name       | Quantity | Unit Price | Sub-Total |");
-            System.out.println("========================================================================");
-
-            for (OrderItem orderItem : cart.getItemList()) {
-                System.out.printf("|  %5s  |       %-17s|%5d     |   %3.2f    |%8.2f   |\n", orderItem.getItem().getItemID(), orderItem.getItem().getItemName(), orderItem.getQuantity(), orderItem.getItem().getItemPrice(), orderItem.getSubtotal());
-                totalAmount += orderItem.getSubtotal();
-            }
-
-            System.out.println("========================================================================");
-            System.out.printf("|            Total amount in cart                           RM %3.2f   |\n", totalAmount);
-            System.out.println("========================================================================");
+        if (orderList.isEmpty()) {
+            System.out.println("** There is no any order made **");
         } else {
-            System.out.println("\n** Currently no item in the cart **");
+            System.out.println("\nPlease enter date to search the order history");
+
+            boolean validationD;
+            do {
+                validationD = true;
+                System.out.printf("Day: ");
+                dayS = kb.nextLine();
+
+                if (dayS.isEmpty()) {
+                    validationD = false;
+                    System.out.println("\n** Please fill in the day **\n");
+                } else {
+                    if (!validateDay(dayS)) {
+                        System.out.println("\n** Invalid Date Format **\n");
+                        validationD = false;
+                    }
+                }
+            } while (validationD == false);
+
+            boolean validationM;
+            do {
+                validationM = true;
+                System.out.printf("Month: ");
+                monthS = kb.nextLine();
+                if (monthS.isEmpty()) {
+                    validationM = false;
+                    System.out.println("\n** Please fill in the month **\n");
+                } else {
+
+                    if (!validateMonth(dayS, monthS)) {
+                        System.out.println("\n** Invalid Date Format **\n");
+                        validationM = false;
+                    }
+                }
+            } while (validationM == false);
+
+            boolean validationY;
+            do {
+                validationY = true;
+                System.out.printf("Year: ");
+                yearS = kb.nextLine();
+                if (yearS.isEmpty()) {
+                    validationY = false;
+                    System.out.println("\n** Please fill in the year **\n");
+                } else {
+
+                    if (!validateYear(yearS)) {
+                        System.out.println("\n** Invalid Date Format **\n");
+                        validationY = false;
+                    }
+                }
+            } while (validationY == false);
+
+            day = Integer.parseInt(dayS);
+            month = Integer.parseInt(monthS);
+            year = Integer.parseInt(yearS);
+            LocalDate date = LocalDate.of(year, month, day);
+
+            System.out.println("\n                   Order History                  ");
+            System.out.print("---------------------------------------------------\n");
+            System.out.println("===================================================");
+            System.out.println("| Order ID |   Status  |    Date    | Total Price |");
+            System.out.println("===================================================");
+            for (Order order : orderList) {
+                if (order.date.isEqual(date)) {
+                    System.out.printf("|   %4s   | %9s | %tF |   RM%6.2f  |\n", order.id, order.status, order.date, order.totalPrice);
+                    found = true;
+                }
+            }
+            if (found == false) {
+                System.out.println("|               No record found                   |");
+            }
+            System.out.println("===================================================");
         }
     }
-}
