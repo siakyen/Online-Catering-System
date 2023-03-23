@@ -24,23 +24,26 @@ public class Main {
             }
             
             serviceTax = totalBeforeTax * 0.06;
-            totalAmount = (totalBeforeTax * 1.06) + 2 + 3;
+            totalAmount = (totalBeforeTax * 1.06) + 2;
             System.out.println("------------------------------------------------------------------------");
             System.out.printf("| Service Tax (6%%):                                         RM %3.2f    |\n", serviceTax);
             System.out.println("| Container Fee   :                                         RM 2.00    |");
-            System.out.println("| Delivery Fee    :                                         RM 3.00    |");
             System.out.println("========================================================================");
-            System.out.printf("|            Total amount in cart                           RM %3.2f   |\n", totalAmount);
+            System.out.printf("| Total amount    :                                         RM %3.2f   |\n", totalAmount);
             System.out.println("========================================================================");
             
-            System.out.print("Do you confirm for checkout: ");
-            confirm = kb.nextLine();
+            do {
+                System.out.print("Do you confirm for checkout: ");
+                confirm = kb.nextLine();
             
-            if (confirm.equals("Y")) {
-                System.out.println("Please proceed to the next step.");
-            } else {
-                System.out.println("Checkout has been cancelled.");
-            }
+                if (confirm.equals("Y")) {
+                    System.out.println("Please proceed to the next step.");
+                } else if (confirm.equals("N")){
+                    System.out.println("Checkout has been cancelled.");
+                } else {
+                    System.out.println("Invalid input. Please try again.");
+                }   
+            }while (!confirm.equals("Y") && !confirm.equals("N"));
         } else {
             System.out.println("\n** No order summary found **");
         }
