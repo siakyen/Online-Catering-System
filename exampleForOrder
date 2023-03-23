@@ -85,15 +85,26 @@ public class exampleForOrder {
 
     }
     
-    public static void viewOrderStatus(List<Order> orderList){
+   public static void viewOrderStatus(List<Order> orderList){
+         int found = 0;
         for (Order order : orderList) {
+            
+            if(order.getStatus().equals("Preparing") || order.getStatus().equals("Ready to Pick Up") ){
             System.out.println("Date of the Order  : "+ order.getDate());
             System.out.printf("|============|=========================|\n");
             System.out.printf("|  Order ID  |         Status          |\n");
             System.out.printf("|============|=========================|\n");
             System.out.printf("|   %5s    |       %-17s |\n", order.id, order.status);
             System.out.printf("|============|=========================|\n\n");
-                
+            found++;
             }
+            
+            
+                
+        }
+        
+        if(found == 0){
+            System.out.println("No order !");
+        }
     }
 }
