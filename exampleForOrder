@@ -35,25 +35,23 @@ public class exampleForOrder {
             do {
                 System.out.printf("Day: ");
                 dayS = kb.nextLine();
+                validation = validateDay(dayS);
                 if (dayS.isEmpty()) {
                     validation = false;
                     System.out.println("\nPlease fill in the day ");
                 } else if (validation == false) {
-                    validation = validateDay(dayS);
-                    if (validateDay(dayS)) {
-                        System.out.println("\nInvalid Date Format");
-                    }
+                    System.out.println("\nInvalid Date Format");
                 }
             } while (validation == false);
 
             do {
                 System.out.printf("Month: ");
                 monthS = kb.nextLine();
+                validation = validateMonth(dayS, monthS);
                 if (monthS.isEmpty()) {
                     validation = false;
                     System.out.println("\nPlease fill in the month ");
                 } else if (validation == false) {
-                    validation = validateMonth(dayS, monthS);
                     System.out.println("\nInvalid Date Format");
                 }
             } while (validation == false);
@@ -61,14 +59,12 @@ public class exampleForOrder {
             do {
                 System.out.printf("Year: ");
                 yearS = kb.nextLine();
+                validation = validateYear(yearS);
                 if (yearS.isEmpty()) {
                     validation = false;
                     System.out.println("\nPlease fill in the year ");
                 } else if (validation == false) {
-                    validation = validateYear(yearS);
-                    if (validation == false) {
-                        System.out.println("\nInvalid Date Format");
-                    }
+                    System.out.println("\nInvalid Date Format");
                 }
             } while (validation == false);
 
@@ -162,10 +158,9 @@ public class exampleForOrder {
     public static void viewOrderhistory(List<Order> orderList) {
         int number = 1;
         String stringMonth = "";
-        LocalDate today = LocalDate.now();
 
         if (!orderList.isEmpty()) {
-            System.out.println("    View Order History by Month within year 2023   ");
+            System.out.println("            View Order History by Month            ");
             System.out.println("---------------------------------------------------");
 
             do {
@@ -184,7 +179,6 @@ public class exampleForOrder {
                         stringMonth = "April";
                         break;
                     case 5:
-                        stringMonth = "May";
                         break;
                     case 6:
                         stringMonth = "June";
@@ -217,8 +211,7 @@ public class exampleForOrder {
                 System.out.println("===================================================");
                 for (Order order : orderList) {
                     int month = order.date.getMonthValue();
-                    int year = order.date.getYear();
-                    if (number == month && year == 2023) {
+                    if (number == month) {
                         System.out.printf("=   %4s   | %9s | %tF |   RM%6.2f  =\n", order.id, order.status, order.date, order.totalPrice);
                         record++;
                     }
@@ -231,7 +224,7 @@ public class exampleForOrder {
                 System.out.println("===================================================\n");
                 number++;
 
-            } while (number <= today.getMonthValue());
+            } while (number < 13);
         } else {
             System.out.println("\t    There is no any order made");
         }
