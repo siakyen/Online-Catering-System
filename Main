@@ -24,7 +24,7 @@ public static void searchItem(List<Item> foodList){
            }
 
                 if (found == 0){
-                    System.out.println("Sorry there is n such item. Please Enter Again\n\n");
+                    System.out.println("Sorry there is no such item. Please Enter Again\n\n");
                 }
                 
         }while(found == 0);
