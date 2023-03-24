@@ -245,7 +245,7 @@ public class AgileAsg {
         }
     }
 
-    //search order history
+        //search order history
     public static void searchOrderhistory(List<Order> orderList) {
         Scanner kb = new Scanner(System.in);
         boolean found = false;
@@ -339,9 +339,13 @@ public class AgileAsg {
                 }
 
             }
-
             if (found == false) {
-                System.out.println("|               No record found                   |");
+                System.out.println("\n==========================================================================");
+                System.out.printf("|                              Order History                             |\n");
+                System.out.println("==========================================================================");
+                System.out.println("|                             No record found                            |");
+                System.out.println("==========================================================================");
+
             }
         }
     }
@@ -353,9 +357,8 @@ public class AgileAsg {
         LocalDate today = LocalDate.now();
 
         if (!orderList.isEmpty()) {
-            System.out.println("\n    View Order History by Month within year 2023   ");
-            System.out.println("---------------------------------------------------");
-
+            System.out.println("\n===================================================");
+            System.out.println("=   View Order History by Month within year 2023  =");
             do {
                 int record = 0;
                 switch (number) {
@@ -398,7 +401,7 @@ public class AgileAsg {
 
                 }
 
-                System.out.println("\n===================================================");
+                System.out.println("===================================================");
                 System.out.printf("|                 Month: %-10s               |\n", stringMonth);
                 System.out.println("===================================================");
                 System.out.println("| Order ID |   Status  |    Date    | Total Price |");
@@ -424,6 +427,7 @@ public class AgileAsg {
             System.out.println("** There is no any order made **");
         }
     }
+
 
     //register function
     public static List<Customer> register(List<Customer> custList) {
