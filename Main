@@ -1,4 +1,4 @@
-//search order history
+    //search order history
     public static void searchOrderhistory(List<Order> orderList) {
         Scanner kb = new Scanner(System.in);
         boolean found = false;
@@ -65,21 +65,115 @@
             month = Integer.parseInt(monthS);
             year = Integer.parseInt(yearS);
             LocalDate date = LocalDate.of(year, month, day);
-
-            System.out.println("\n                   Order History                  ");
-            System.out.print("---------------------------------------------------\n");
-            System.out.println("===================================================");
-            System.out.println("| Order ID |   Status  |    Date    | Total Price |");
-            System.out.println("===================================================");
             for (Order order : orderList) {
+                double totalBeforeTax = 0;
+                double serviceTax;
+                double totalAmount = 0.0;
                 if (order.date.isEqual(date)) {
-                    System.out.printf("|   %4s   | %9s | %tF |   RM%6.2f  |\n", order.id, order.status, order.date, order.totalPrice);
+                    System.out.println("\n========================================================================");
+                    System.out.printf("| ID:%4s                     Order History          Status: %9s |\n", order.id, order.status);
                     found = true;
+
+                    System.out.println("========================================================================");
+                    System.out.println("| Item ID |        Item Name       | Quantity | Unit Price | Sub-Total |");
+                    System.out.println("|----------------------------------------------------------------------|");
+                    for (OrderItem orderItem : order.getItems()) {
+                        System.out.printf("|  %5s  |       %-17s|%5d     |   %5.2f    | %7.2f   |\n", orderItem.getItem().getItemID(), orderItem.getItem().getItemName(), orderItem.getQuantity(), orderItem.getItem().getItemPrice(), orderItem.getSubtotal());
+                        totalBeforeTax += orderItem.getSubtotal();
+                    }
+                    serviceTax = totalBeforeTax * 0.06;
+                    totalAmount = (totalBeforeTax * 1.06) + 2;
+                    System.out.println("|----------------------------------------------------------------------|");
+                    System.out.printf("| Service Tax (6%%):                                         RM  %3.2f   |\n", serviceTax);
+                    System.out.println("| Container Fee   :                                         RM  2.00   |");
+                    System.out.println("========================================================================");
+                    System.out.printf("| Total amount    :                                         RM %3.2f   |\n", totalAmount);
+                    System.out.println("========================================================================\n\n");
                 }
+
             }
+
             if (found == false) {
                 System.out.println("|               No record found                   |");
             }
-            System.out.println("===================================================");
+        }
+    }
+
+    //view order history
+    public static void viewOrderhistory(List<Order> orderList) {
+        int number = 1;
+        String stringMonth = "";
+        LocalDate today = LocalDate.now();
+
+        if (!orderList.isEmpty()) {
+            System.out.println("\n    View Order History by Month within year 2023   ");
+            System.out.println("---------------------------------------------------");
+
+            do {
+                int record = 0;
+                switch (number) {
+                    case 1:
+                        stringMonth = "January";
+                        break;
+                    case 2:
+                        stringMonth = "February";
+                        break;
+                    case 3:
+                        stringMonth = "March";
+                        break;
+                    case 4:
+                        stringMonth = "April";
+                        break;
+                    case 5:
+                        stringMonth = "May";
+                        break;
+                    case 6:
+                        stringMonth = "June";
+                        break;
+                    case 7:
+                        stringMonth = "July";
+                        break;
+                    case 8:
+                        stringMonth = "August";
+                        break;
+                    case 9:
+                        stringMonth = "September";
+                        break;
+                    case 10:
+                        stringMonth = "October";
+                        break;
+                    case 11:
+                        stringMonth = "November";
+                        break;
+                    case 12:
+                        stringMonth = "December";
+                        break;
+
+                }
+
+                System.out.println("\n===================================================");
+                System.out.printf("|                 Month: %-10s               |\n", stringMonth);
+                System.out.println("===================================================");
+                System.out.println("| Order ID |   Status  |    Date    | Total Price |");
+                System.out.println("===================================================");
+                for (Order order : orderList) {
+                    int month = order.date.getMonthValue();
+                    int year = order.date.getYear();
+                    if (number == month && year == 2023) {
+                        System.out.printf("|   %4s   | %9s | %tF |   RM%6.2f  |\n", order.id, order.status, order.date, (order.totalPrice * 1.06) + 2);
+                        record++;
+                    }
+                }
+
+                if (record == 0) {
+                    System.out.println("|       There is no any record in this month      |");
+
+                }
+                System.out.println("===================================================\n");
+                number++;
+
+            } while (number <= today.getMonthValue());
+        } else {
+            System.out.println("** There is no any order made **");
         }
     }
