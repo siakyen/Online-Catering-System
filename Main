@@ -92,9 +92,13 @@
                 }
 
             }
-
             if (found == false) {
-                System.out.println("|               No record found                   |");
+                System.out.println("\n==========================================================================");
+                System.out.printf("|                              Order History                             |\n");
+                System.out.println("==========================================================================");
+                System.out.println("|                             No record found                            |");
+                System.out.println("==========================================================================");
+
             }
         }
     }
@@ -106,9 +110,8 @@
         LocalDate today = LocalDate.now();
 
         if (!orderList.isEmpty()) {
-            System.out.println("\n    View Order History by Month within year 2023   ");
-            System.out.println("---------------------------------------------------");
-
+            System.out.println("\n===================================================");
+            System.out.println("=   View Order History by Month within year 2023  =");
             do {
                 int record = 0;
                 switch (number) {
@@ -151,7 +154,7 @@
 
                 }
 
-                System.out.println("\n===================================================");
+                System.out.println("===================================================");
                 System.out.printf("|                 Month: %-10s               |\n", stringMonth);
                 System.out.println("===================================================");
                 System.out.println("| Order ID |   Status  |    Date    | Total Price |");
