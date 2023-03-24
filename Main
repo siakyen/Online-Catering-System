@@ -113,7 +113,7 @@ public class AgileAsg {
         OrderItem items5 = new OrderItem(foodList.get(3), 3);
         OrderItem items6 = new OrderItem(foodList.get(4), 1);
         OrderItem items7 = new OrderItem(foodList.get(0), 1);
-        OrderItem items8 = new OrderItem(foodList.get(4), 2);
+        OrderItem items8 = new OrderItem(foodList.get(1), 2);
         OrderItem items9 = new OrderItem(foodList.get(3), 1);
         OrderItem items10 = new OrderItem(foodList.get(1), 2);
 
