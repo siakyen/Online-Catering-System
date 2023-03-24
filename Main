@@ -1,4 +1,7 @@
+package agileasg;
+
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -8,11 +11,13 @@ import java.util.regex.*;
 public class AgileAsg {
 
     public static void main(String[] args) {
+        List<Order> orderList = new ArrayList<>();
         List<Customer> custList = new ArrayList<>();
         List<Item> foodList = new ArrayList<>();
         Cart cart = new Cart();
         initialFood(foodList);
         initialCust(custList);
+        initialOrder(orderList, foodList);
         Scanner scanner = new Scanner(System.in);
         String option;
 
@@ -26,7 +31,12 @@ public class AgileAsg {
             System.out.println("4. Add Cart");
             System.out.println("5. View Cart");
             System.out.println("6. Update Cart");
-            System.out.println("7. Exit");
+            System.out.println("7. Search Item by Item ID");
+            System.out.println("8. View Order Summary");
+            System.out.println("9. View Order History");
+            System.out.println("10. Search Order History");
+            System.out.println("11. View Order Status");
+            System.out.println("12. Exit");
             System.out.print("\nPlease enter your option: ");
             option = scanner.nextLine();
 
@@ -42,15 +52,24 @@ public class AgileAsg {
                 viewCart(cart);
             } else if (option.equals("6")) {
                 updateCart(cart);
-            } else if (option.equals("7")) {
+            }else if (option.equals("7")) {
+                searchItem(foodList);
+            } else if (option.equals("8")) {
+                showOrderSummary(cart);
+            } else if (option.equals("9")) {
+                viewOrderhistory(orderList);
+            } else if (option.equals("10")) {
+                searchOrderhistory(orderList);
+            } else if (option.equals("11")) {
+                viewOrderStatus(orderList);;
+            } else if (option.equals("12")) {
                 System.out.println("** Thanks and Bye **");
             } else {
                 System.out.println("** No such option **");
             }
-        } while (!option.equals("7"));
+        } while (!option.equals("12"));
     }
 
-    
 //method to initial the record
     public static void initialCust(List<Customer> custList) {
         Customer cust1 = new Customer("Phoon Winig Yan", "phoon5932@hotmail.com", "0166556158", "KL", new Account("wingyan123", "wingyan123", "active"));
@@ -86,9 +105,326 @@ public class AgileAsg {
         foodList.add(dessert3);
     }
 
-    
+    public static void initialOrder(List<Order> orderList, List<Item> foodList) {
+        OrderItem items1 = new OrderItem(foodList.get(2), 2);
+        OrderItem items2 = new OrderItem(foodList.get(1), 1);
+        OrderItem items3 = new OrderItem(foodList.get(0), 1);
+        OrderItem items4 = new OrderItem(foodList.get(2), 1);
+        OrderItem items5 = new OrderItem(foodList.get(3), 3);
+        OrderItem items6 = new OrderItem(foodList.get(4), 1);
+        OrderItem items7 = new OrderItem(foodList.get(0), 1);
+        OrderItem items8 = new OrderItem(foodList.get(4), 2);
+        OrderItem items9 = new OrderItem(foodList.get(3), 1);
+        OrderItem items10 = new OrderItem(foodList.get(1), 2);
+
+        List<OrderItem> list1 = new ArrayList<>();
+        List<OrderItem> list2 = new ArrayList<>();
+        List<OrderItem> list3 = new ArrayList<>();
+        List<OrderItem> list4 = new ArrayList<>();
+
+        list1.add(items1);
+        list1.add(items2);
+        list2.add(items3);
+        list2.add(items4);
+        list2.add(items5);
+        list3.add(items6);
+        list3.add(items7);
+        list3.add(items8);
+        list4.add(items9);
+        list4.add(items10);
+
+        Order order1 = new Order("O001", list1, "Completed", LocalDate.of(2023, 1, 4));
+        Order order2 = new Order("O002", list2, "Cancelled", LocalDate.of(2023, 1, 26));
+        Order order3 = new Order("O003", list3, "Completed", LocalDate.of(2023, 3, 1));
+        Order order4 = new Order("O004", list4, "Preparing");
+
+        orderList.add(order1);
+        orderList.add(order2);
+        orderList.add(order3);
+        orderList.add(order4);
+
+    }
+
 //method for functions
     
+    //search item
+    public static void searchItem(List<Item> foodList) {
+        String choiceS;
+        Scanner scanner = new Scanner(System.in);
+
+        int found = 0;
+
+        do {
+
+            System.out.println("Hi! What item do you want to search?");
+            System.out.println("------------------------------------");
+            System.out.print("Please Enter Item ID :");
+            choiceS = scanner.nextLine();
+
+            for (Item item : foodList) {
+                if (choiceS.equalsIgnoreCase(item.getItemID())) {
+                    System.out.printf("\n%s. %-30s RM%2.2f  \n", item.getItemID(), item.getItemName(), item.itemPrice);
+                    found++;
+                }
+
+            }
+
+            if (found == 0) {
+                System.out.println("** Sorry there is no such item. Please Enter Again **\n\n");
+            }
+
+        } while (found == 0);
+
+    }
+
+    //view order status
+    public static void viewOrderStatus(List<Order> orderList) {
+        int found = 0;
+        for (Order order : orderList) {
+
+            if (order.getStatus().equals("Preparing") || order.getStatus().equals("Ready to Pick Up")) {
+                System.out.println("\nDate of the Order  : " + order.getDate());
+                System.out.printf("|============|=========================|\n");
+                System.out.printf("|  Order ID  |         Status          |\n");
+                System.out.printf("|============|=========================|\n");
+                System.out.printf("|   %5s    |       %-17s |\n", order.id, order.status);
+                System.out.printf("|============|=========================|\n\n");
+                found++;
+            }
+
+        }
+
+        if (found == 0) {
+            System.out.println("\n** Currently No Order **");
+        }
+    }
+
+    //show order summary
+    public static void showOrderSummary(Cart cart) {
+        Scanner kb = new Scanner(System.in);
+        double totalBeforeTax = 0;
+        double serviceTax;
+        double totalAmount;
+        String confirm;
+
+        if (!cart.isEmpty()) {
+            System.out.println("\n========================================================================");
+            System.out.println("|                              Order Summary                           |");
+            System.out.println("========================================================================");
+            System.out.println("| Item ID |        Item Name       | Quantity | Unit Price | Sub-Total |");
+            System.out.println("------------------------------------------------------------------------");
+
+            for (OrderItem orderItem : cart.getItemList()) {
+                System.out.printf("|  %5s  |       %-17s|%5d     |   %5.2f    |%8.2f   |\n", orderItem.getItem().getItemID(), orderItem.getItem().getItemName(), orderItem.getQuantity(), orderItem.getItem().getItemPrice(), orderItem.getSubtotal());
+                totalBeforeTax += orderItem.getSubtotal();
+            }
+
+            serviceTax = totalBeforeTax * 0.06;
+            totalAmount = (totalBeforeTax * 1.06) + 2;
+            System.out.println("------------------------------------------------------------------------");
+            System.out.printf("| Service Tax (6%%):                                         RM %3.2f    |\n", serviceTax);
+            System.out.println("| Container Fee   :                                         RM 2.00    |");
+            System.out.println("========================================================================");
+            System.out.printf("| Total amount    :                                         RM %3.2f   |\n", totalAmount);
+            System.out.println("========================================================================");
+
+            do {
+                System.out.print("\nDo you confirm for checkout (Y/N): ");
+                confirm = kb.nextLine();
+
+                if (confirm.equalsIgnoreCase("Y")) {
+                    System.out.println("\n** Please proceed to the next step **");
+                } else if (confirm.equalsIgnoreCase("N")) {
+                    System.out.println("\n** Checkout has been cancelled **");
+                } else {
+                    System.out.println("\n** Invalid input. Please try again **");
+                }
+            } while (!confirm.equalsIgnoreCase("Y") && !confirm.equalsIgnoreCase("N"));
+        } else {
+            System.out.println("\n** No order summary found **");
+        }
+    }
+
+    //search order history
+    public static void searchOrderhistory(List<Order> orderList) {
+        Scanner kb = new Scanner(System.in);
+        boolean found = false;
+        int day, month, year;
+        String dayS, yearS, monthS;
+
+        if (orderList.isEmpty()) {
+            System.out.println("** There is no any order made **");
+        } else {
+            System.out.println("\nPlease enter date to search the order history");
+
+            boolean validationD;
+            do {
+                validationD = true;
+                System.out.printf("Day: ");
+                dayS = kb.nextLine();
+
+                if (dayS.isEmpty()) {
+                    validationD = false;
+                    System.out.println("\n** Please fill in the day **\n");
+                } else {
+                    if (!validateDay(dayS)) {
+                        System.out.println("\n** Invalid Date Format **\n");
+                        validationD = false;
+                    }
+                }
+            } while (validationD == false);
+
+            boolean validationM;
+            do {
+                validationM = true;
+                System.out.printf("Month: ");
+                monthS = kb.nextLine();
+                if (monthS.isEmpty()) {
+                    validationM = false;
+                    System.out.println("\n** Please fill in the month **\n");
+                } else {
+
+                    if (!validateMonth(dayS, monthS)) {
+                        System.out.println("\n** Invalid Date Format **\n");
+                        validationM = false;
+                    }
+                }
+            } while (validationM == false);
+
+            boolean validationY;
+            do {
+                validationY = true;
+                System.out.printf("Year: ");
+                yearS = kb.nextLine();
+                if (yearS.isEmpty()) {
+                    validationY = false;
+                    System.out.println("\n** Please fill in the year **\n");
+                } else {
+
+                    if (!validateYear(yearS)) {
+                        System.out.println("\n** Invalid Date Format **\n");
+                        validationY = false;
+                    }
+                }
+            } while (validationY == false);
+
+            day = Integer.parseInt(dayS);
+            month = Integer.parseInt(monthS);
+            year = Integer.parseInt(yearS);
+            LocalDate date = LocalDate.of(year, month, day);
+            for (Order order : orderList) {
+                double totalBeforeTax = 0;
+                double serviceTax;
+                double totalAmount = 0.0;
+                if (order.date.isEqual(date)) {
+                    System.out.println("\n========================================================================");
+                    System.out.printf("| ID:%4s                     Order History          Status: %9s |\n", order.id, order.status);
+                    found = true;
+
+                    System.out.println("========================================================================");
+                    System.out.println("| Item ID |        Item Name       | Quantity | Unit Price | Sub-Total |");
+                    System.out.println("|----------------------------------------------------------------------|");
+                    for (OrderItem orderItem : order.getItems()) {
+                        System.out.printf("|  %5s  |       %-17s|%5d     |   %5.2f    | %7.2f   |\n", orderItem.getItem().getItemID(), orderItem.getItem().getItemName(), orderItem.getQuantity(), orderItem.getItem().getItemPrice(), orderItem.getSubtotal());
+                        totalBeforeTax += orderItem.getSubtotal();
+                    }
+                    serviceTax = totalBeforeTax * 0.06;
+                    totalAmount = (totalBeforeTax * 1.06) + 2;
+                    System.out.println("|----------------------------------------------------------------------|");
+                    System.out.printf("| Service Tax (6%%):                                         RM  %3.2f   |\n", serviceTax);
+                    System.out.println("| Container Fee   :                                         RM  2.00   |");
+                    System.out.println("========================================================================");
+                    System.out.printf("| Total amount    :                                         RM %3.2f   |\n", totalAmount);
+                    System.out.println("========================================================================\n\n");
+                }
+
+            }
+
+            if (found == false) {
+                System.out.println("|               No record found                   |");
+            }
+        }
+    }
+
+    //view order history
+    public static void viewOrderhistory(List<Order> orderList) {
+        int number = 1;
+        String stringMonth = "";
+        LocalDate today = LocalDate.now();
+
+        if (!orderList.isEmpty()) {
+            System.out.println("\n    View Order History by Month within year 2023   ");
+            System.out.println("---------------------------------------------------");
+
+            do {
+                int record = 0;
+                switch (number) {
+                    case 1:
+                        stringMonth = "January";
+                        break;
+                    case 2:
+                        stringMonth = "February";
+                        break;
+                    case 3:
+                        stringMonth = "March";
+                        break;
+                    case 4:
+                        stringMonth = "April";
+                        break;
+                    case 5:
+                        stringMonth = "May";
+                        break;
+                    case 6:
+                        stringMonth = "June";
+                        break;
+                    case 7:
+                        stringMonth = "July";
+                        break;
+                    case 8:
+                        stringMonth = "August";
+                        break;
+                    case 9:
+                        stringMonth = "September";
+                        break;
+                    case 10:
+                        stringMonth = "October";
+                        break;
+                    case 11:
+                        stringMonth = "November";
+                        break;
+                    case 12:
+                        stringMonth = "December";
+                        break;
+
+                }
+
+                System.out.println("\n===================================================");
+                System.out.printf("|                 Month: %-10s               |\n", stringMonth);
+                System.out.println("===================================================");
+                System.out.println("| Order ID |   Status  |    Date    | Total Price |");
+                System.out.println("===================================================");
+                for (Order order : orderList) {
+                    int month = order.date.getMonthValue();
+                    int year = order.date.getYear();
+                    if (number == month && year == 2023) {
+                        System.out.printf("|   %4s   | %9s | %tF |   RM%6.2f  |\n", order.id, order.status, order.date, (order.totalPrice * 1.06) + 2);
+                        record++;
+                    }
+                }
+
+                if (record == 0) {
+                    System.out.println("|       There is no any record in this month      |");
+
+                }
+                System.out.println("===================================================\n");
+                number++;
+
+            } while (number <= today.getMonthValue());
+        } else {
+            System.out.println("** There is no any order made **");
+        }
+    }
+
     //register function
     public static List<Customer> register(List<Customer> custList) {
 
@@ -391,7 +727,7 @@ public class AgileAsg {
             }
         } while (!choice.equals("4"));
     }
-    
+
     //update cart function
     public static void updateCart(Cart cart) {
         Scanner scanner = new Scanner(System.in);
@@ -441,8 +777,71 @@ public class AgileAsg {
         }
     }
 
-    
 //method for validation
+    public static boolean validateDay(String day) {
+
+        //check are all digits?
+        for (int i = 0; i < day.length(); i++) {
+            if (Character.isDigit(day.charAt(i)) == false) {
+                return false;
+            }
+        }
+
+        int dayI = Integer.parseInt(day);
+
+        if (dayI <= 0 || dayI > 31) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean validateMonth(String day, String month) {
+
+        //check are all digits?
+        for (int i = 0; i < month.length(); i++) {
+            if (Character.isDigit(month.charAt(i)) == false) {
+                return false;
+            }
+        }
+
+        int monthI = Integer.parseInt(month);
+        int dayI = Integer.parseInt(day);
+
+        if (monthI <= 0 || monthI > 12) {
+            return false;
+        }
+
+        if (monthI == 2) {
+            if (dayI > 28) {
+                return false;
+            }
+        } else if (monthI == 4 || monthI == 6 || monthI == 9 || monthI == 11) {
+            if (dayI == 31) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean validateYear(String year) {
+
+        //check are all digits?
+        for (int i = 0; i < year.length(); i++) {
+            if (Character.isDigit(year.charAt(i)) == false) {
+                return false;
+            }
+        }
+
+        //check length
+        if (year.length() != 4) {
+            return false;
+        }
+
+        return true;
+    }
+
     public static boolean validateUpdateQty(String quantity) {
         if (quantity.isEmpty()) {
             return false;
@@ -467,7 +866,7 @@ public class AgileAsg {
 
         return true;
     }
-    
+
     public static boolean validateLargeQuantity(String quantity) {
         int quan = Integer.parseInt(quantity);
 
