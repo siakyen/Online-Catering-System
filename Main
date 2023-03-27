@@ -5,28 +5,6 @@ public static void searchItem(List<Item> foodList){
         int found = 0;
         
       
-        do{
         
-         System.out.println("Hi! What item do you want to search?");
-         System.out.println("------------------------------------");
-         System.out.println("Please Enter Item ID :");
-         choiceS = scanner.nextLine();
-         
-         
-            for (Item item : foodList) {
-                       if (choiceS.equalsIgnoreCase(item.getItemID())) {
-                           System.out.printf("%s. %-30s RM%2.2f  \n",item.getItemID(),item.getItemName(), item.itemPrice);
-                            found++;
-                       }
-
-                      
-                      
-           }
-
-                if (found == 0){
-                    System.out.println("Sorry there is no such item. Please Enter Again\n\n");
-                }
-                
-        }while(found == 0);
         
     }
