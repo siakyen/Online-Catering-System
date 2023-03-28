@@ -1,4 +1,4 @@
-//update cart function
+
     public static void updateCart(Cart cart) {
         Scanner scanner = new Scanner(System.in);
         String code;
