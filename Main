@@ -25,7 +25,7 @@
                 System.out.println("\n** No such item ID, you may refer to your cart **");
             } else {
                 do {
-                    System.out.print("\nPlease enter new quantity (0 = remove): ");
+                    System.out.print("\nPlease enter new quantity (0 == remove): ");
                     qty = scanner.nextLine();
 
                     if (!validateUpdateQty(qty)) {
