@@ -7,6 +7,5 @@ public class Main {
     //Main
         Scanner kb = new Scanner(System.in);
         
-        
     }
  }
