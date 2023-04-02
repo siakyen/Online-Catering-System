@@ -1,48 +1,84 @@
+//update profile
+    public static void updateProfile(Customer cust) {
 
-    public static void updateCart(Cart cart) {
         Scanner scanner = new Scanner(System.in);
-        String code;
-        boolean existed = false;
-        String qty;
-        OrderItem selected = new OrderItem();
+        String option, enteredName, enteredEmail, enteredPhone, enteredAdd;
 
-        if (cart.getItemList().isEmpty()) {
-            System.out.println("\n** Currently no item in the cart **");
+        if (cust.getName() == null) {
+            System.out.println("\n** You haven't login, please login before proceed **");
         } else {
+            do {
+                System.out.println("\nUpdate Profile");
+                System.out.println("--------------");
+                System.out.println("1. Name");
+                System.out.println("2. Email");
+                System.out.println("3. Phone Number");
+                System.out.println("4. Address");
+                System.out.print("Enter the option that you want to edit: ");
+                option = scanner.nextLine();
 
-            System.out.print("\nPlease enter the item ID of the item that you want to update: ");
-            code = scanner.nextLine();
-
-            //validate code
-            for (OrderItem item : cart.getItemList()) {
-                if (item.getItem().getItemID().equalsIgnoreCase(code)) {
-                    existed = true;
-                    selected = item;
+                if (!option.equals("1") && !option.equals("2") && !option.equals("3") && !option.equals("4") && !option.equals("5")) {
+                    System.out.println("\n** No such option **");
                 }
-            }
+            } while (!option.equals("1") && !option.equals("2") && !option.equals("3") && !option.equals("4") && !option.equals("5"));
 
-            if (!existed) {
-                System.out.println("\n** No such item ID, you may refer to your cart **");
-            } else {
+            if (option.equals("1")) {
                 do {
-                    System.out.print("\nPlease enter new quantity (0 == remove): ");
-                    qty = scanner.nextLine();
+                    System.out.print("\nNew name: ");
+                    enteredName = scanner.nextLine();
 
-                    if (!validateUpdateQty(qty)) {
-                        System.out.println("\n** Invalid quantity, minimum is 0, maxixmum is 50 **");
+                    if (enteredName.isEmpty()) {
+                        System.out.println("** Please fill in the field **");
+                    } else if (!validateName(enteredName)) {
+                        System.out.println("** Invalid name. Name can only contain alphabets and spaces, at least 4 characters **");
                     }
+                } while (!validateName(enteredName));
 
-                } while (!validateUpdateQty(qty));
+                cust.setName(enteredName);
+            } else if (option.equals("2")) {
+                do {
+                    System.out.print("\nNew email: ");
+                    enteredEmail = scanner.nextLine();
 
-                int quantity = Integer.parseInt(qty);
+                    if (enteredEmail.isEmpty()) {
+                        System.out.println("** Please fill in the field **");
+                    } else if (!validateEmail(enteredEmail)) {
+                        System.out.println("** Invalid email. Email must contain '@' and '.' **");
+                    }
+                } while (!validateEmail(enteredEmail));
 
-                if (quantity == 0) {
-                    cart.itemList.remove(selected);
-                } else {
-                    selected.replaceQuantity(quantity);
-                }
+                cust.setEmail(enteredEmail);
+            } else if (option.equals("3")) {
+                do {
+                    System.out.print("\nNew phone number (without -): ");
+                    enteredPhone = scanner.nextLine();
 
-                System.out.println("\n** Cart updated successfully! **");
+                    //show error message if invalid
+                    if (enteredPhone.isEmpty()) {
+                        System.out.println("** Please fill in the field **");
+                    } else if (!validatePhoneNum(enteredPhone)) {
+                        System.out.println("** Invalid phone number. Phone number can only contain 10 or 11 digits and start with '01' **");
+                    }
+                } while (!validatePhoneNum(enteredPhone));
+
+                cust.setPhoneNum(enteredPhone);
+            } else if (option.equals("4")) {
+                do {
+                    System.out.print("\nNew address: ");
+                    enteredAdd = scanner.nextLine();
+
+                    //show error message if invalid
+                    if (enteredAdd.isEmpty()) {
+                        System.out.println("** Please fill in the field **");
+                    } else if (!validateAddress(enteredAdd)) {
+                        System.out.println("** Invalid address. Address must at least 4 characters **");
+                    }
+                } while (!validateAddress(enteredAdd));
+
+                cust.setAddress(enteredAdd);
             }
+
+            System.out.println("\n** Profile updated successfully **");
         }
+
     }
