@@ -1,3 +1,5 @@
+package agileasg;
+
 public class Customer {
 
     String name;
@@ -6,6 +8,8 @@ public class Customer {
     String address;
     Account acc;
 
+    public Customer(){}
+    
     public Customer(String name, String email, String phoneNum, String address, Account acc) {
         this.name = name;
         this.email = email;
