@@ -153,13 +153,17 @@ public class AgileAsg {
     }
 
 //method for functions
-    
     //view profile
     public static void viewProfile(Customer cust) {
-        System.out.println(cust.getName());
-        System.out.println(cust.getEmail());
-        System.out.println(cust.getPhoneNum());
-        System.out.println(cust.getAddress());
+
+        if (cust.getName() == null) {
+            System.out.println("\n** You haven't login, please login before proceed **");
+        } else {
+            System.out.println(cust.getName());
+            System.out.println(cust.getEmail());
+            System.out.println(cust.getPhoneNum());
+            System.out.println(cust.getAddress());
+        }
     }
 
     //update profile
