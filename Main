@@ -1,6 +1,5 @@
 package agileasg;
 
-
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class AgileAsg {
                 viewCart(cart);
             } else if (option.equals("6")) {
                 updateCart(cart);
-            }else if (option.equals("7")) {
+            } else if (option.equals("7")) {
                 searchItem(foodList);
             } else if (option.equals("8")) {
                 showOrderSummary(cart);
@@ -147,7 +146,6 @@ public class AgileAsg {
     }
 
 //method for functions
-    
     //search item
     public static void searchItem(List<Item> foodList) {
         String choiceS;
@@ -157,14 +155,18 @@ public class AgileAsg {
 
         do {
 
-            System.out.println("Hi! What item do you want to search?");
+            System.out.println("\nHi! What item do you want to search?");
             System.out.println("------------------------------------");
             System.out.print("Please Enter Item ID :");
             choiceS = scanner.nextLine();
 
             for (Item item : foodList) {
                 if (choiceS.equalsIgnoreCase(item.getItemID())) {
-                    System.out.printf("\n%s. %-30s RM%2.2f  \n", item.getItemID(), item.getItemName(), item.itemPrice);
+                    System.out.println("\n+=====================================================+");
+                    System.out.printf("| %-19s %-20s %-11s|\n", "Item ID", "Item Name", "Item Price");
+                    System.out.println("+-----------------------------------------------------+");
+                    System.out.printf("| %-19s %-20s RM%-9.2f|\n", item.getItemID(), item.getItemName(), item.itemPrice);
+                    System.out.println("+=====================================================+");
                     found++;
                 }
 
@@ -246,7 +248,7 @@ public class AgileAsg {
         }
     }
 
-        //search order history
+    //search order history
     public static void searchOrderhistory(List<Order> orderList) {
         Scanner kb = new Scanner(System.in);
         boolean found = false;
@@ -428,7 +430,6 @@ public class AgileAsg {
             System.out.println("** There is no any order made **");
         }
     }
-
 
     //register function
     public static List<Customer> register(List<Customer> custList) {
@@ -661,7 +662,7 @@ public class AgileAsg {
             }
 
             System.out.println("========================================================================");
-            System.out.printf("|            Total amount in cart                           RM %3.2f   |\n", totalAmount);
+            System.out.printf("|            Total amount in cart                           RM %5.2f   |\n", totalAmount);
             System.out.println("========================================================================");
         } else {
 
@@ -770,14 +771,28 @@ public class AgileAsg {
                 } while (!validateUpdateQty(qty));
 
                 int quantity = Integer.parseInt(qty);
+                String confirmation;
 
                 if (quantity == 0) {
-                    cart.itemList.remove(selected);
+                    do {
+                        System.out.print("Do you confirm to delete the item? (Y/N): ");
+                        confirmation = scanner.nextLine();
+
+                        if (!confirmation.equalsIgnoreCase("Y") && !confirmation.equalsIgnoreCase("N")) {
+                            System.out.println("\n** Invalid confirmation, please enter again **\n");
+                        }
+                    } while (!confirmation.equalsIgnoreCase("Y") && !confirmation.equalsIgnoreCase("N"));
+
+                    if (confirmation.equalsIgnoreCase("Y")) {
+                        cart.itemList.remove(selected);
+                        System.out.println("\n** Cart updated successfully! **");
+                    }
+
                 } else {
                     selected.replaceQuantity(quantity);
+                    System.out.println("\n** Cart updated successfully! **");
                 }
 
-                System.out.println("\n** Cart updated successfully! **");
             }
         }
     }
