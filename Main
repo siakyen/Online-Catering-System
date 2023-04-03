@@ -1,183 +1,108 @@
 
-//search order history
-    public static void searchOrderhistory(List<Order> orderList) {
-        Scanner kb = new Scanner(System.in);
-        boolean found = false;
-        int day, month, year;
-        String dayS, yearS, monthS;
+    public static void addItem(List<Item> foodList) {
+        Scanner input = new Scanner(System.in);
+        String category = "", itemName;
+        String itemPrice;
+        String itemCategory;
 
-        if (orderList.isEmpty()) {
-            System.out.println("** There is no any order made **");
-        } else {
-            System.out.println("\nPlease enter date to search the order history");
-
-            boolean validationD;
-            do {
-                validationD = true;
-                System.out.printf("Day: ");
-                dayS = kb.nextLine();
-
-                if (dayS.isEmpty()) {
-                    validationD = false;
-                    System.out.println("\n** Please fill in the day **\n");
-                } else {
-                    if (!validateDay(dayS)) {
-                        System.out.println("\n** Invalid Date Format **\n");
-                        validationD = false;
-                    }
-                }
-            } while (validationD == false);
-
-            boolean validationM;
-            do {
-                validationM = true;
-                System.out.printf("Month: ");
-                monthS = kb.nextLine();
-                if (monthS.isEmpty()) {
-                    validationM = false;
-                    System.out.println("\n** Please fill in the month **\n");
-                } else {
-
-                    if (!validateMonth(dayS, monthS)) {
-                        System.out.println("\n** Invalid Date Format **\n");
-                        validationM = false;
-                    }
-                }
-            } while (validationM == false);
-
-            boolean validationY;
-            do {
-                validationY = true;
-                System.out.printf("Year: ");
-                yearS = kb.nextLine();
-                if (yearS.isEmpty()) {
-                    validationY = false;
-                    System.out.println("\n** Please fill in the year **\n");
-                } else {
-
-                    if (!validateYear(yearS)) {
-                        System.out.println("\n** Invalid Date Format **\n");
-                        validationY = false;
-                    }
-                }
-            } while (validationY == false);
-
-            day = Integer.parseInt(dayS);
-            month = Integer.parseInt(monthS);
-            year = Integer.parseInt(yearS);
-            LocalDate date = LocalDate.of(year, month, day);
-            for (Order order : orderList) {
-                double totalBeforeTax = 0;
-                double serviceTax;
-                double totalAmount = 0.0;
-                if (order.date.isEqual(date)) {
-                    System.out.println("\n========================================================================");
-                    System.out.printf("| ID:%4s                     Order History          Status: %9s |\n", order.id, order.status);
-                    found = true;
-
-                    System.out.println("========================================================================");
-                    System.out.println("| Item ID |        Item Name       | Quantity | Unit Price | Sub-Total |");
-                    System.out.println("|----------------------------------------------------------------------|");
-                    for (OrderItem orderItem : order.getItems()) {
-                        System.out.printf("|  %5s  |       %-17s|%5d     |   %5.2f    | %7.2f   |\n", orderItem.getItem().getItemID(), orderItem.getItem().getItemName(), orderItem.getQuantity(), orderItem.getItem().getItemPrice(), orderItem.getSubtotal());
-                        totalBeforeTax += orderItem.getSubtotal();
-                    }
-                    serviceTax = totalBeforeTax * 0.06;
-                    totalAmount = (totalBeforeTax * 1.06) + 2;
-                    System.out.println("|----------------------------------------------------------------------|");
-                    System.out.printf("| Service Tax (6%%):                                         RM  %3.2f   |\n", serviceTax);
-                    System.out.println("| Container Fee   :                                         RM  2.00   |");
-                    System.out.println("========================================================================");
-                    System.out.printf("| Total amount    :                                         RM %3.2f   |\n", totalAmount);
-                    System.out.println("========================================================================\n\n");
-                }
-
+        Item item = new Item();
+        boolean validationItemName;
+        do {
+            validationItemName = true;
+            System.out.printf("Please enter the Item Name: ");
+            itemName = input.nextLine();
+            if (itemName.isEmpty()) {
+                validationItemName = false;
+                System.out.println("\n** Please fill in the item name **\n");
+            } else {
+                validationItemName = true;
             }
-            if (found == false) {
-                System.out.println("\n==========================================================================");
-                System.out.printf("|                              Order History                             |\n");
-                System.out.println("==========================================================================");
-                System.out.println("|                             No record found                            |");
-                System.out.println("==========================================================================");
+        } while (validationItemName == false);
 
+        boolean validationItemPrice;
+        do {
+            validationItemPrice = true;
+            System.out.printf("Please enter the Item Price: ");
+            itemPrice = input.nextLine();
+            if (itemPrice.isEmpty()) {
+                validationItemPrice = false;
+                System.out.println("\n** Please fill in the item Price **\n");
+            } else {
+                if (!validateItemPrice(itemPrice)) {
+                    validationItemPrice = false;
+                    System.out.println("\n** Invalid Item Price **\n");
+                }
             }
+        } while (validationItemPrice == false);
+
+        boolean validationItemCategory ;
+        do {
+            validationItemCategory = true;
+            System.out.println("\nFood Category");
+            System.out.println("1. Food");
+            System.out.println("2. Beverage");
+            System.out.println("3. Dessert");
+            System.out.printf("Please select the Item Category: ");
+            itemCategory = input.nextLine();
+            if (itemCategory.isEmpty()) {
+                validationItemCategory = false;
+                System.out.println("\n** Please fill in the item Category **\n");
+            } else {
+                if (!validateItemCategory(itemCategory)) {
+                    validationItemCategory = false;
+                    System.out.println("\n** Invalid Category number **\n");
+                }
+            }
+        } while (validationItemCategory == false);
+        switch (itemCategory) {
+            case "1":
+                category = "Food";
+                break;
+            case "2":
+                category = "Beverage";
+                break;
+            case "3":
+                category = "Dessert";
+                break;
         }
+        double intItemPrice = Double.parseDouble(itemPrice);
+        item = new Item(item.assignItemID(category), itemName, intItemPrice, category);
+        foodList.add(item);
+        System.out.println("Add successfully");
     }
 
-    //view order history
-    public static void viewOrderhistory(List<Order> orderList) {
-        int number = 1;
-        String stringMonth = "";
-        LocalDate today = LocalDate.now();
+    public static boolean validateItemPrice(String price) {
 
-        if (!orderList.isEmpty()) {
-            System.out.println("\n===================================================");
-            System.out.println("=   View Order History by Month within year 2023  =");
-            do {
-                int record = 0;
-                switch (number) {
-                    case 1:
-                        stringMonth = "January";
-                        break;
-                    case 2:
-                        stringMonth = "February";
-                        break;
-                    case 3:
-                        stringMonth = "March";
-                        break;
-                    case 4:
-                        stringMonth = "April";
-                        break;
-                    case 5:
-                        stringMonth = "May";
-                        break;
-                    case 6:
-                        stringMonth = "June";
-                        break;
-                    case 7:
-                        stringMonth = "July";
-                        break;
-                    case 8:
-                        stringMonth = "August";
-                        break;
-                    case 9:
-                        stringMonth = "September";
-                        break;
-                    case 10:
-                        stringMonth = "October";
-                        break;
-                    case 11:
-                        stringMonth = "November";
-                        break;
-                    case 12:
-                        stringMonth = "December";
-                        break;
-
+        int count=0;
+        //check are all digits?
+        for (int i = 0; i < price.length(); i++) {
+            if (Character.isDigit(price.charAt(i)) == false) {
+                if (price.charAt(i) != '.') {
+                    return false;
+                }else{
+                    count++;
                 }
-
-                System.out.println("===================================================");
-                System.out.printf("|                 Month: %-10s               |\n", stringMonth);
-                System.out.println("===================================================");
-                System.out.println("| Order ID |   Status  |    Date    | Total Price |");
-                System.out.println("===================================================");
-                for (Order order : orderList) {
-                    int month = order.date.getMonthValue();
-                    int year = order.date.getYear();
-                    if (number == month && year == 2023) {
-                        System.out.printf("|   %4s   | %9s | %tF |   RM%6.2f  |\n", order.id, order.status, order.date, (order.totalPrice * 1.06) + 2);
-                        record++;
-                    }
-                }
-
-                if (record == 0) {
-                    System.out.println("|       There is no any record in this month      |");
-
-                }
-                System.out.println("===================================================\n");
-                number++;
-
-            } while (number <= today.getMonthValue());
-        } else {
-            System.out.println("** There is no any order made **");
+            }
         }
+        if(count>1){
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean validateItemCategory(String category) {
+
+        int range = Integer.parseInt(category);
+        //check are all digits?
+        for (int i = 0; i < category.length(); i++) {
+            if (Character.isDigit(category.charAt(i)) == false) {
+                return false;
+            }
+        }
+        if (range <= 0 || range > 3) {
+            return false;
+        }
+
+        return true;
     }
