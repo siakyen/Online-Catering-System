@@ -6,5 +6,15 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {
     //Main
         Scanner kb = new Scanner(System.in);
+        String selection;
+            
+        System.out.println("Selection: ");
+        selection = scanner.nextLine();
+            
+        if (selection.equals("1")) {
+            searchItemByName(foodList);
+        } else if (selection.equals("2")) {
+            updateItem(item);
+        }
     }
  }
