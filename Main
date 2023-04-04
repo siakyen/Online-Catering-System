@@ -17,4 +17,35 @@ public class Main {
             updateItem(item);
         }
     }
+    
+    public static void searchItemByName(List<Item> foodList) {
+        String name;
+        Scanner scanner = new Scanner(System.in);
+        int found = 0;
+
+        do {
+
+            System.out.println("\nHi! What item do you want to search?");
+            System.out.println("------------------------------------");
+            System.out.print("Please Enter Item Name :");
+            name = scanner.nextLine();
+
+            for (Item item : foodList) {
+                if (name.equalsIgnoreCase(item.getItemName())) {
+                    System.out.println("\n+=====================================================+");
+                    System.out.printf("| %-19s %-20s %-11s|\n", "Item ID", "Item Name", "Item Price");
+                    System.out.println("+-----------------------------------------------------+");
+                    System.out.printf("| %-19s %-20s RM%-9.2f|\n", item.getItemID(), item.getItemName(), item.itemPrice);
+                    System.out.println("+=====================================================+");
+                    found++;
+                }
+
+            }
+
+            if (found == 0) {
+                System.out.println("** Sorry there is no such item. Please Enter Again **\n\n");
+            }
+
+        } while (found == 0);
+    }
  }
