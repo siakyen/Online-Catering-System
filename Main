@@ -48,4 +48,68 @@ public class Main {
 
         } while (found == 0);
     }
+    
+    public static void updateItem(List<Item> foodList, Item item) {
+        Scanner scanner = new Scanner(System.in);
+        String selection;
+        int found = 0;
+        String option, nameEntered, priceEntered;
+        double newPrice;
+        
+        do {
+            System.out.print("Please enter Item ID to update: ");
+            selection = scanner.nextLine();
+            
+            for (Item itemS : foodList) {
+                if (selection.equalsIgnoreCase(itemS.getItemID())) {
+                    do {
+                        System.out.println("\nUpdate Item");
+                        System.out.println("--------------");
+                        System.out.println("1. Item Name");
+                        System.out.println("2. Item Price");
+                        System.out.print("Enter the option that you want to edit: ");
+                        option = scanner.nextLine();
+
+                        if (!option.equals("1") && !option.equals("2")) {
+                            System.out.println("\n** No such option **");
+                        }
+                    } while (!option.equals("1") && !option.equals("2"));
+
+                    if (option.equals("1")) {
+                        do {
+                            System.out.print("\nNew item name: ");
+                            nameEntered = scanner.nextLine();
+
+                            if (nameEntered.isEmpty()) {
+                                System.out.println("** Please fill in the field **");
+                            } else if (!validateName(nameEntered)) {
+                                System.out.println("** Invalid item name. Item name can only contain alphabets and spaces, at least 4 characters. **");
+                            }
+                        } while (!validateName(nameEntered));
+                        item.setItemName(nameEntered);
+
+                    } else if (option.equals("2")) {
+                        do {
+                            System.out.print("\nNew item price: RM");
+                            priceEntered = scanner.nextLine();
+
+                            if (priceEntered.isEmpty()) {
+                                System.out.println("** Please fill in the field **");
+                            } else if (!validatePrice(priceEntered)){
+                                System.out.println("** Invalid item price. Item price can only contain numbers which is more than 0. **");
+                            }
+                        } while (!validatePrice(priceEntered) || priceEntered.isEmpty());
+                        newPrice = Double.parseDouble(priceEntered);
+                        item.setItemPrice(newPrice);
+                    } 
+                    System.out.println("\n** Item updated successfully **");
+                    found++;
+                }
+            }
+
+            if (found == 0) {
+                System.out.println("** Sorry there is no such item. Please Enter Again **\n\n");
+            }
+        } while (found == 0);
+    }
  }
