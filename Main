@@ -1,4 +1,3 @@
-
     public static void addItem(List<Item> foodList) {
         Scanner input = new Scanner(System.in);
         String category = "", itemName;
@@ -15,7 +14,10 @@
                 validationItemName = false;
                 System.out.println("\n** Please fill in the item name **\n");
             } else {
-                validationItemName = true;
+                if (!validateItemName(itemName)) {
+                    validationItemName = false;
+                    System.out.println("Name must contain number");
+                }
             }
         } while (validationItemName == false);
 
@@ -35,7 +37,7 @@
             }
         } while (validationItemPrice == false);
 
-        boolean validationItemCategory ;
+        boolean validationItemCategory;
         do {
             validationItemCategory = true;
             System.out.println("\nFood Category");
@@ -68,23 +70,37 @@
         double intItemPrice = Double.parseDouble(itemPrice);
         item = new Item(item.assignItemID(category), itemName, intItemPrice, category);
         foodList.add(item);
-        System.out.println("Add successfully");
+        System.out.println("\nYou have successfully add the item!");
     }
 
+    public static boolean validateItemName(String name) {
+        int count = 0;
+        for (int i = 0; i < name.length(); i++) {
+            if (Character.isAlphabetic(name.charAt(i))) {
+                count++;
+            }
+        }
+
+        if (count < 1) {
+            return false;
+        }
+        return true;
+    }
+    
     public static boolean validateItemPrice(String price) {
 
-        int count=0;
+        int count = 0;
         //check are all digits?
         for (int i = 0; i < price.length(); i++) {
             if (Character.isDigit(price.charAt(i)) == false) {
                 if (price.charAt(i) != '.') {
                     return false;
-                }else{
+                } else {
                     count++;
                 }
             }
         }
-        if(count>1){
+        if (count > 1) {
             return false;
         }
 
@@ -93,13 +109,13 @@
 
     public static boolean validateItemCategory(String category) {
 
-        int range = Integer.parseInt(category);
         //check are all digits?
         for (int i = 0; i < category.length(); i++) {
             if (Character.isDigit(category.charAt(i)) == false) {
                 return false;
             }
         }
+        int range = Integer.parseInt(category);
         if (range <= 0 || range > 3) {
             return false;
         }
