@@ -16,7 +16,7 @@
             } else {
                 if (!validateItemName(itemName)) {
                     validationItemName = false;
-                    System.out.println("Name must contain number");
+                    System.out.println("\n** Food name must contain character **\n");
                 }
             }
         } while (validationItemName == false);
@@ -68,7 +68,10 @@
                 break;
         }
         double intItemPrice = Double.parseDouble(itemPrice);
-        item = new Item(item.assignItemID(category), itemName, intItemPrice, category);
+        item.setItemID(item.assignItemID(category));
+        item.setItemName(itemName);
+        item.setItemPrice(intItemPrice);
+        item.setCategory(category);
         foodList.add(item);
         System.out.println("\nYou have successfully add the item!");
     }
@@ -86,7 +89,7 @@
         }
         return true;
     }
-    
+
     public static boolean validateItemPrice(String price) {
 
         int count = 0;
@@ -100,7 +103,8 @@
                 }
             }
         }
-        if (count > 1) {
+        int priceInt = Integer.parseInt(price);
+        if (count > 1||priceInt==0) {
             return false;
         }
 
