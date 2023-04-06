@@ -3,12 +3,14 @@ public static void viewProfile(Customer cust) {
         if (cust.getName() == null) {
             System.out.println("\n** You haven't login, please login before proceed **");
         } else {
-            System.out.printf("\n+==============================+");
-            System.out.printf("\n|           Profile            |");
-            System.out.printf("\n+==============================+");
-            System.out.printf("\n| Name      |" + cust.getName());
-            System.out.println(cust.getEmail());
-            System.out.println(cust.getPhoneNum());
-            System.out.println(cust.getAddress());
+            System.out.printf("\n+=========================================================+");
+            System.out.printf("\n|                       Profile                           |");
+            System.out.printf("\n+=========================================================+");
+            System.out.printf("\n| Name       |" + "%10s" +"%30s " , cust.getName(),'|');
+            System.out.printf("\n| Email      |" + "%10s"+"%24s " , cust.getEmail(),'|');
+            System.out.printf("\n| PhoneNo    |" + "%10s"+"%35s " , cust.getPhoneNum(),'|');
+            System.out.printf("\n| Address    |" + "%-10s"+"%35s " , cust.getAddress(),'|');
+            System.out.printf("\n+=========================================================+");
+           
         }
     }
