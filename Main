@@ -19,31 +19,37 @@ public class Main {
     }
     
     public static void searchItemByName(List<Item> foodList) {
-        String name;
+        String itemName;
         Scanner scanner = new Scanner(System.in);
+        boolean found = false;
 
         do {
             System.out.println("\nHi! What item do you want to search?");
             System.out.println("------------------------------------");
             System.out.print("Please Enter Item Name :");
-            name = scanner.nextLine();
+            itemName = scanner.nextLine();
             
-            if (name.isEmpty()) {
+            if (itemName.isEmpty()) {
                 System.out.println("** Please fill in the field **");
-            } else if (!validateName(name)) {
-                System.out.println("** Invalid item name. Item name can only contain alphabets and spaces, at least 4 characters. **");
             }
-
-            for (Item item : foodList) {
-                if (name.equalsIgnoreCase(item.getItemName())) {
-                    System.out.println("\n+=====================================================+");
-                    System.out.printf("| %-19s %-20s %-11s|\n", "Item ID", "Item Name", "Item Price");
-                    System.out.println("+-----------------------------------------------------+");
-                    System.out.printf("| %-19s %-20s RM%-9.2f|\n", item.getItemID(), item.getItemName(), item.itemPrice);
-                    System.out.println("+=====================================================+");
-                }
+        } while (itemName.isEmpty());
+        
+        System.out.println("\n+=====================================================+");
+            System.out.printf("| %-19s %-20s %-11s|\n", "Item ID", "Item Name", "Item Price");
+            System.out.println("+-----------------------------------------------------+");
+            
+        for (Item item : foodList) {
+            if (item.getItemName().toLowerCase().contains(itemName.toLowerCase())) {
+                System.out.printf("| %-19s %-20s RM%-9.2f|\n", item.getItemID(), item.getItemName(), item.itemPrice);
+                found = true;
             }
-        } while (!validateName(name));
+        }
+        
+        if(!found){
+            System.out.println("|                 **No such items. **                 |");
+        }
+        
+        System.out.println("+=====================================================+");
     }
     
     public static void updateItem(List<Item> foodList) {
