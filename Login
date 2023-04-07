@@ -1,1 +1,37 @@
 
+package sample;
+
+import java.util.List;
+
+/**
+ *
+ * @author Wing Yan Phoon
+ */
+public class Login {
+
+    //validate login function
+    
+    public static boolean validateAccount(String enteredUN, String enteredPS, List<Customer> custList) {
+        for (Customer cust : custList) {
+            if (cust.getAcc().getUsername().equals(enteredUN)) {
+                if (cust.getAcc().getPassword().equals(enteredPS)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean validateActiveAcc(String enteredUN, String enteredPS, List<Customer> custList) {
+        for (Customer cust : custList) {
+            if (cust.getAcc().getUsername().equals(enteredUN)) {
+                if (cust.getAcc().getPassword().equals(enteredPS)) {
+                    if (cust.getAcc().getStatus().equalsIgnoreCase("active")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+}
