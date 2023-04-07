@@ -14,7 +14,7 @@ public class Main {
         if (selection.equals("1")) {
             searchItemByName(foodList);
         } else if (selection.equals("2")) {
-            updateItem(item);
+            updateItem(foodList);
         }
     }
     
@@ -46,7 +46,7 @@ public class Main {
         } while (!validateName(name));
     }
     
-    public static void updateItem(List<Item> foodList, Item item) {
+    public static void updateItem(List<Item> foodList) {
         Scanner scanner = new Scanner(System.in);
         String selection;
         int found = 0;
@@ -83,7 +83,7 @@ public class Main {
                                 System.out.println("** Invalid item name. Item name can only contain alphabets and spaces, at least 4 characters. **");
                             }
                         } while (!validateName(nameEntered));
-                        item.setItemName(nameEntered);
+                        itemS.setItemName(nameEntered);
 
                     } else if (option.equals("2")) {
                         do {
@@ -97,7 +97,7 @@ public class Main {
                             }
                         } while (!validatePrice(priceEntered) || priceEntered.isEmpty());
                         newPrice = Double.parseDouble(priceEntered);
-                        item.setItemPrice(newPrice);
+                        itemS.setItemPrice(newPrice);
                     } 
                     System.out.println("\n** Item updated successfully **");
                     found++;
