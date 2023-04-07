@@ -1,0 +1,97 @@
+
+package sample;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+
+public class LoginTest {
+
+    static List<Customer> custList = new ArrayList<>();
+    static Customer cust = null;
+
+    public LoginTest() {
+    }
+
+    @BeforeClass
+    public static void setUpClass() {
+
+        Customer cust1 = new Customer("Phoon Winig Yan", "phoon5932@hotmail.com", "0166556158", "KL", new Account("wingyan123", "Wingyan123", "active"));
+        Customer cust2 = new Customer("Pey Hui Shan", "huishan123@hotmail.com", "0143387902", "Penang", new Account("huishan123", "Huishan123", "inactive"));
+        Customer cust3 = new Customer("Lim Xin Le", "xinle123@hotmail.com", "0149963256", "Johor", new Account("xinle123", "Xinle123", "active"));
+        custList.add(cust1);
+        custList.add(cust2);
+        custList.add(cust3);
+
+        System.out.println("** All test start here **");
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+        System.out.println("\n** All test end here **");
+    }
+
+    @Before
+    public void setUp() {
+        System.out.println("\n** 1 Of the test start here **");
+    }
+
+    @After
+    public void tearDown() {
+        System.out.println("** 1 Of the test end here **");
+    }
+
+
+    /**
+     * Test of validateAccount method, of class Login.
+     */
+    @Test
+    public void testValidateAccount() {
+        System.out.println("validateAccount");
+        
+        //first test data (invalid)
+        String enteredUN1 = "wingyan123";
+        String enteredPS1 = "Wing11";
+        boolean expResult1 = false;
+        boolean result1 = Login.validateAccount(enteredUN1, enteredPS1, custList);
+        assertEquals(expResult1, result1);
+        
+        //second test data (valid)
+        String enteredUN2 = "wingyan123";
+        String enteredPS2 = "Wingyan123";
+        boolean expResult2 = true;
+        boolean result2 = Login.validateAccount(enteredUN2, enteredPS2, custList);
+        assertEquals(expResult2, result2);
+
+    }
+
+    /**
+     * Test of validateActiveAcc method, of class Login.
+     */
+    @Test
+    public void testValidateActiveAcc() {
+        System.out.println("validateActiveAcc");
+        
+        //first test data (invalid)
+        String enteredUN1 = "huishan123";
+        String enteredPS1 = "Huishan123";
+        boolean expResult1 = false;
+        boolean result1 = Login.validateActiveAcc(enteredUN1, enteredPS1, custList);
+        assertEquals(expResult1, result1);
+        
+        //second test data (valid)
+        String enteredUN2 = "wingyan123";
+        String enteredPS2 = "Wingyan123";
+        boolean expResult2 = true;
+        boolean result2 = Login.validateActiveAcc(enteredUN2, enteredPS2, custList);
+        assertEquals(expResult2, result2);
+        
+    }
+
+}
