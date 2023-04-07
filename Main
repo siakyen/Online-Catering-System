@@ -9,7 +9,7 @@
         } else {
             do {
                 System.out.println("\nUpdate Profile");
-                System.out.println("--------------");
+                System.out.println("-------------");
                 System.out.println("1. Name");
                 System.out.println("2. Email");
                 System.out.println("3. Phone Number");
