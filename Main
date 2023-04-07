@@ -5,7 +5,7 @@
         String option, enteredName, enteredEmail, enteredPhone, enteredAdd;
 
         if (cust.getName() == null) {
-            System.out.println("\n** You haven't login, please login before proceed *");
+            System.out.println("\n** You haven't login, please login before proceed **");
         } else {
             do {
                 System.out.println("\nUpdate Profile");
