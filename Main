@@ -37,9 +37,12 @@ public class AgileAsg {
             System.out.println("9. View Order History");
             System.out.println("10. Search Order History");
             System.out.println("11. View Order Status");
-            System.out.println("12. View profile");
-            System.out.println("13. Update profile");
-            System.out.println("14. Exit");
+            System.out.println("12. View Profile");
+            System.out.println("13. Edit Profile");
+            System.out.println("14. Add Item");
+            System.out.println("15. Update Item");
+            System.out.println("16. Search Item by Item Name");
+            System.out.println("17. Exit");
             System.out.print("\nPlease enter your option: ");
             option = scanner.nextLine();
 
@@ -70,18 +73,24 @@ public class AgileAsg {
             } else if (option.equals("13")) {
                 updateProfile(cust);
             } else if (option.equals("14")) {
+                addItem(foodList);
+            } else if (option.equals("15")) {
+                updateItem(foodList);
+            } else if (option.equals("16")) {
+                searchItemByName(foodList);
+            } else if (option.equals("17")) {
                 System.out.println("** Thanks and Bye **");
             } else {
                 System.out.println("** No such option **");
             }
-        } while (!option.equals("14"));
+        } while (!option.equals("17"));
     }
 
 //method to initial the record
     public static void initialCust(List<Customer> custList) {
-        Customer cust1 = new Customer("Phoon Winig Yan", "phoon5932@hotmail.com", "0166556158", "KL", new Account("wingyan123", "wingyan123", "active"));
-        Customer cust2 = new Customer("Pey Hui Shan", "huishan123@hotmail.com", "0143387902", "Penang", new Account("huishan123", "huishan123", "inactive"));
-        Customer cust3 = new Customer("Lim Xin Le", "xinle123@hotmail.com", "0149963256", "Johor", new Account("xinle123", "xinle123", "active"));
+        Customer cust1 = new Customer("Phoon Winig Yan", "phoon5932@hotmail.com", "0166556158", "KL", new Account("wingyan123", "Wingyan123", "active"));
+        Customer cust2 = new Customer("Pey Hui Shan", "huishan123@hotmail.com", "0143387902", "Penang", new Account("huishan123", "Huishan123", "inactive"));
+        Customer cust3 = new Customer("Lim Xin Le", "xinle123@hotmail.com", "0149963256", "Johor", new Account("xinle123", "Xinle123", "active"));
         custList.add(cust1);
         custList.add(cust2);
         custList.add(cust3);
@@ -153,16 +162,199 @@ public class AgileAsg {
     }
 
 //method for functions
+    //add item
+    public static void addItem(List<Item> foodList) {
+        Scanner input = new Scanner(System.in);
+        String category = "", itemName;
+        String itemPrice;
+        String itemCategory;
+
+        Item item = new Item();
+        boolean validationItemName;
+        do {
+            validationItemName = true;
+            System.out.printf("Please enter the Item Name: ");
+            itemName = input.nextLine();
+            if (itemName.isEmpty()) {
+                validationItemName = false;
+                System.out.println("\n** Please fill in the item name **\n");
+            } else {
+                if (!validateName(itemName)) {
+                    validationItemName = false;
+                    System.out.println("** Invalid item name. Item name can only contain alphabets and spaces, at least 4 characters. **");
+                }
+            }
+        } while (validationItemName == false);
+
+        boolean validationItemPrice;
+        do {
+            validationItemPrice = true;
+            System.out.printf("Please enter the Item Price: ");
+            itemPrice = input.nextLine();
+            if (itemPrice.isEmpty()) {
+                validationItemPrice = false;
+                System.out.println("\n** Please fill in the item Price **\n");
+            } else {
+                if (!validatePrice(itemPrice)) {
+                    validationItemPrice = false;
+                    System.out.println("** Invalid item price. Item price can only contain numbers which is more than 0. **");
+                }
+            }
+        } while (validationItemPrice == false);
+
+        boolean validationItemCategory;
+        do {
+            validationItemCategory = true;
+            System.out.println("\nFood Category");
+            System.out.println("1. Food");
+            System.out.println("2. Beverage");
+            System.out.println("3. Dessert");
+            System.out.printf("Please select the Item Category: ");
+            itemCategory = input.nextLine();
+            if (itemCategory.isEmpty()) {
+                validationItemCategory = false;
+                System.out.println("\n** Please fill in the item Category **\n");
+            } else {
+                if (!validateItemCategory(itemCategory)) {
+                    validationItemCategory = false;
+                    System.out.println("\n** Invalid Category number **\n");
+                }
+            }
+        } while (validationItemCategory == false);
+        switch (itemCategory) {
+            case "1":
+                category = "Food";
+                break;
+            case "2":
+                category = "Beverage";
+                break;
+            case "3":
+                category = "Dessert";
+                break;
+        }
+        double intItemPrice = Double.parseDouble(itemPrice);
+        item.setItemID(item.assignItemID(category));
+        item.setItemName(itemName);
+        item.setItemPrice(intItemPrice);
+        item.setCategory(category);
+        foodList.add(item);
+        System.out.println("\nYou have successfully add the item!");
+    }
+
+    //update item
+    public static void updateItem(List<Item> foodList) {
+        Scanner scanner = new Scanner(System.in);
+        String selection;
+        int found = 0;
+        String option, nameEntered, priceEntered;
+        double newPrice;
+
+        do {
+            System.out.print("Please enter Item ID to update: ");
+            selection = scanner.nextLine();
+
+            for (Item itemS : foodList) {
+                if (selection.equalsIgnoreCase(itemS.getItemID())) {
+                    do {
+                        System.out.println("\nUpdate Item");
+                        System.out.println("--------------");
+                        System.out.println("1. Item Name");
+                        System.out.println("2. Item Price");
+                        System.out.print("Enter the option that you want to edit: ");
+                        option = scanner.nextLine();
+
+                        if (!option.equals("1") && !option.equals("2")) {
+                            System.out.println("\n** No such option **");
+                        }
+                    } while (!option.equals("1") && !option.equals("2"));
+
+                    if (option.equals("1")) {
+                        do {
+                            System.out.print("\nNew item name: ");
+                            nameEntered = scanner.nextLine();
+
+                            if (nameEntered.isEmpty()) {
+                                System.out.println("** Please fill in the field **");
+                            } else if (!validateName(nameEntered)) {
+                                System.out.println("** Invalid item name. Item name can only contain alphabets and spaces, at least 4 characters. **");
+                            }
+                        } while (!validateName(nameEntered));
+                        itemS.setItemName(nameEntered);
+
+                    } else if (option.equals("2")) {
+                        do {
+                            System.out.print("\nNew item price: RM");
+                            priceEntered = scanner.nextLine();
+
+                            if (priceEntered.isEmpty()) {
+                                System.out.println("** Please fill in the field **");
+                            } else if (!validatePrice(priceEntered)) {
+                                System.out.println("** Invalid item price. Item price can only contain numbers which is more than 0. **");
+                            }
+                        } while (!validatePrice(priceEntered) || priceEntered.isEmpty());
+                        newPrice = Double.parseDouble(priceEntered);
+                        itemS.setItemPrice(newPrice);
+                    }
+                    System.out.println("\n** Item updated successfully **");
+                    found++;
+                }
+            }
+
+            if (found == 0) {
+                System.out.println("\n** Sorry there is no such item. Please Enter Again **\n\n");
+            }
+        } while (found == 0);
+    }
+
+    //search item by name
+    public static void searchItemByName(List<Item> foodList) {
+        String itemName;
+        Scanner scanner = new Scanner(System.in);
+        boolean found = false;
+
+        do {
+            System.out.println("\nHi! What item do you want to search?");
+            System.out.println("------------------------------------");
+            System.out.print("Please Enter Item Name :");
+            itemName = scanner.nextLine();
+            
+            if (itemName.isEmpty()) {
+                System.out.println("** Please fill in the field **");
+            }
+        } while (itemName.isEmpty());
+        
+        System.out.println("\n+=====================================================+");
+            System.out.printf("| %-19s %-20s %-11s|\n", "Item ID", "Item Name", "Item Price");
+            System.out.println("+-----------------------------------------------------+");
+            
+        for (Item item : foodList) {
+            if (item.getItemName().toLowerCase().contains(itemName.toLowerCase())) {
+                System.out.printf("| %-19s %-20s RM%-9.2f|\n", item.getItemID(), item.getItemName(), item.itemPrice);
+                found = true;
+            }
+        }
+        
+        if(!found){
+            System.out.println("|                 **No such items. **                 |");
+        }
+        
+        System.out.println("+=====================================================+");
+    }
+
     //view profile
     public static void viewProfile(Customer cust) {
 
         if (cust.getName() == null) {
             System.out.println("\n** You haven't login, please login before proceed **");
         } else {
-            System.out.println(cust.getName());
-            System.out.println(cust.getEmail());
-            System.out.println(cust.getPhoneNum());
-            System.out.println(cust.getAddress());
+            System.out.printf("\n+=========================================================+");
+            System.out.printf("\n|                       Profile                           |");
+            System.out.printf("\n+=========================================================+");
+            System.out.printf("\n| Name       | %-42s |", cust.getName());
+            System.out.printf("\n| Email      | %-42s |", cust.getEmail());
+            System.out.printf("\n| PhoneNo    | %-42s |", cust.getPhoneNum());
+            System.out.printf("\n| Address    | %-42s |", cust.getAddress());
+            System.out.printf("\n+=========================================================+");
         }
     }
 
@@ -1168,6 +1360,49 @@ public class AgileAsg {
     public static boolean validateRPS(String ps1, String ps2) {
 
         if (!ps2.equals(ps1)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean validatePrice(String price) {
+        if (price.charAt(0) == '0') {
+            return false;
+        }
+
+        if (price.length() < 4) {
+            return false;
+        }
+
+        for (int i = 0; i < price.length(); i++) {
+            if (Character.isDigit(price.charAt(i)) == true || price.charAt(i) == '.') {
+                if (price.charAt(price.length() - 3) == '.' && Character.isDigit(price.charAt(price.length() - 1)) == true && Character.isDigit(price.charAt(price.length() - 2)) == true) {
+                    for (int j = 0; j < price.length() - 3; j++) {
+                        if (Character.isDigit(price.charAt(j)) == false) {
+                            return false;
+                        }
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean validateItemCategory(String category) {
+
+        //check are all digits?
+        for (int i = 0; i < category.length(); i++) {
+            if (Character.isDigit(category.charAt(i)) == false) {
+                return false;
+            }
+        }
+        int range = Integer.parseInt(category);
+        if (range <= 0 || range > 3) {
             return false;
         }
 
