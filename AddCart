@@ -1,0 +1,108 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sample;
+
+import java.util.List;
+import java.util.Scanner;
+
+/**
+ *
+ * @author Wing Yan Phoon
+ */
+public class AddCart {
+
+    //add cart function
+    public static int addCart(List<Item> foodList, Cart cart, String choice, String quantity) {
+        
+        String ans = null;
+        Item itemFound = new Item();
+        boolean valid = false;
+
+        //do {
+        //    do {
+                
+
+                int found = 0;
+                int available = 0;
+
+                for (Item item : foodList) {
+                    if (choice.equalsIgnoreCase(item.getItemID())) {
+                        found++;
+                        if (item.getAvailability()) {
+                            available++;
+                            itemFound = item;
+                        }
+                    }
+                }
+
+                if (found == 0) {
+                    System.out.println("** Invalid input, please enter again **\n");
+                } else if (available == 0) {
+                    System.out.println("** The item is out of stock, please enter others **\n");
+                } else {
+                    valid = true;
+                   // do {
+
+                        if (!validateQuantity(quantity)) {
+                            System.out.println("** Invalid quantity, please enter again **\n");
+                        } else if (!validateLargeQuantity(quantity)) {
+                            System.out.println("** Quantity cannot more than 50, please enter again **\n");
+                        }
+                   // } while (!validateQuantity(quantity) || !validateLargeQuantity(quantity));
+
+                    //when input are valid
+                    //check is the item existed in the cart?
+                    boolean exist = false;
+                    for (OrderItem item : cart.getItemList()) {
+                        if (item.getItem().getItemID().equalsIgnoreCase(itemFound.getItemID())) {
+                            exist = true;
+                            item.updateQuantity(Integer.parseInt(quantity));
+                        }
+                    }
+
+                    if (!exist) {
+                        cart.addItem(new OrderItem(itemFound, Integer.parseInt(quantity)));
+                    }
+                }
+
+            //} while (!valid);
+       // } while (ans.equalsIgnoreCase("Y"));
+        return cart.getItemList().size();
+    }
+    
+    public static boolean validateQuantity(String quantity) {
+        if (quantity.isEmpty()) {
+            return false;
+        }
+
+        //check are all digits?
+        for (int i = 0; i < quantity.length(); i++) {
+            if (Character.isDigit(quantity.charAt(i)) == false) {
+                return false;
+            }
+        }
+
+        int quan = Integer.parseInt(quantity);
+
+        if (quan < 1) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    public static boolean validateLargeQuantity(String quantity) {
+        int quan = Integer.parseInt(quantity);
+
+        if (quan >= 50) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    
+}
