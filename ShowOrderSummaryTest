@@ -1,0 +1,110 @@
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import org.junit.BeforeClass;
+
+public class ShowOrderSummaryTest {
+    static List<Item> foodList = new ArrayList<>();
+    static Cart cart = new Cart();
+    static Cart cartNull = null;
+    static OrderItem orderItem = new OrderItem();
+    
+    public ShowOrderSummaryTest() {
+    }
+    
+     @BeforeClass
+    public static void setUpClass() {
+        Item food = new Item("F001", "Fry Rice", 13.5, "Food");
+        Item beverage = new Item("B001", "Lemon Juice", 6.5, "Beverage");
+        Item dessert = new Item("D003", "Matcha Cake", 11.9, "Dessert");
+
+        OrderItem orderItem1 = new OrderItem(food, 2);
+        OrderItem orderItem2 = new OrderItem(beverage, 2);
+        OrderItem orderItem3 = new OrderItem(dessert, 1);
+
+        cart.addItem(orderItem1);
+        cart.addItem(orderItem2);
+        cart.addItem(orderItem3);
+        System.out.println("Setting it up !");
+    }
+    
+    @Before
+    public void setUp() {
+        System.out.printf("\nTesting: ");
+    }
+
+    @After
+    public void tearDown() {
+        System.out.println("Testing is completed");
+    }
+    
+    /**
+     * Test of showOrderSummary method, of class ShowOrderSummary.
+     */
+    @Test
+    public void testSubtotal() {
+        System.out.println("Item Subtotal");
+        
+        double subtotal = 51.9;
+        double result = 0;
+        for (OrderItem orderItem : cart.getItemList()) {
+            result += orderItem.getSubtotal();
+        }
+        assertEquals(subtotal, result, 0.0);
+    }
+    
+    @Test
+    public void testServoceTax() {
+        System.out.println("Service Tax");
+        
+        double servieTax = 3.114;
+        double subResult = 0;
+        double result = 0;
+        for (OrderItem orderItem : cart.getItemList()) {
+            subResult += orderItem.getSubtotal();
+        }
+        result = subResult * 0.06;
+        assertEquals(servieTax, result, 0.0);
+    }   
+    
+     @Test
+    public void testTotalAmount() {
+        System.out.println("Total Amount");
+        
+        double totalAmount = 57.014;
+        double subResult = 0;
+        double result;
+        for (OrderItem orderItem : cart.getItemList()) {
+            subResult += orderItem.getSubtotal();
+        }
+        result = (subResult * 1.06) + 2;
+        assertEquals(totalAmount, result, 0.0);
+    }
+    
+    @Test
+    public void testItem() {
+        System.out.println("Item in Order Summary");
+        
+        String[] item = {"Fry Rice", "Lemon Juice", "Matcha Cake"};
+        for (OrderItem orderItem : cart.getItemList()) {
+            for (int i = 0; i < cart.itemList.size(); i++) {
+                assertEquals(item[i],cart.itemList.get(i).item.itemName);
+            }
+        }
+    }
+    
+    @Test
+    public void testNotNullObject() {
+        System.out.println("Not Null Object");
+        assertNotNull(cart);
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+        System.out.println("\nAll the test is done !");
+    }
+}
