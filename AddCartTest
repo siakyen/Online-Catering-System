@@ -1,0 +1,143 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sample;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ *
+ * @author Wing Yan Phoon
+ */
+public class AddCartTest {
+
+    static List<Item> foodList = new ArrayList<>();
+    static Cart cart = new Cart();
+
+    public AddCartTest() {
+    }
+
+    @BeforeClass
+    public static void setUpClass() {
+
+        Item food1 = new Item("F001", "Fry Rice", 13.5, "Food");
+        Item food2 = new Item("F002", "Chicken Rice", 22.5, "Food");
+        Item food3 = new Item("F003", "Mee Goreng", 10.0, "Food");
+        Item beverage1 = new Item("B001", "Green tea", 2.5, "Beverage");
+        Item beverage2 = new Item("B002", "Lemon juice", 6.5, "Beverage");
+        Item beverage3 = new Item("B003", "Bubble tea", 8.5, "Beverage");
+        Item dessert1 = new Item("D001", "Oreo Cake", 11.9, "Dessert");
+        Item dessert2 = new Item("D002", "Baked cheesecake", 13.9, "Dessert");
+        Item dessert3 = new Item("D003", "Matcha Cake", 11.9, "Dessert");
+
+        food2.setAvailability(Boolean.FALSE);
+        beverage2.setAvailability(Boolean.FALSE);
+
+        foodList.add(food1);
+        foodList.add(food2);
+        foodList.add(food3);
+        foodList.add(beverage1);
+        foodList.add(beverage2);
+        foodList.add(beverage3);
+        foodList.add(dessert1);
+        foodList.add(dessert2);
+        foodList.add(dessert3);
+
+        System.out.println("** All test start here **");
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+        System.out.println("\n** All test end here **");
+    }
+
+    @Before
+    public void setUp() {
+        System.out.println("\n** 1 Of the test start here **");
+    }
+
+    @After
+    public void tearDown() {
+        System.out.println("** 1 Of the test end here **");
+    }
+
+    /**
+     * Test of addCart method, of class AddCart.
+     */
+    @Test
+    public void testAddCart() {
+        System.out.println("addCart");
+        
+        //first test data (invalid)
+        String id1 = "bla";
+        String quantity1 = "-1";
+        
+        int expResult1 = 0;
+        int result1 = AddCart.addCart(foodList, cart, id1, quantity1);
+        assertEquals(expResult1, result1);
+        
+        //second test data (valid)
+        String id = "F001";
+        String quantity = "2";
+        
+        int expResult = 1;
+        int result = AddCart.addCart(foodList, cart, id, quantity);
+        assertEquals(expResult, result);
+        
+        
+
+
+    }
+
+    /**
+     * Test of validateQuantity method, of class AddCart.
+     */
+    @Test
+    public void testValidateQuantity() {
+        System.out.println("validateQuantity");
+
+        //first test data (invalid)
+        String quantity = "a";
+        boolean expResult = false;
+        boolean result = AddCart.validateQuantity(quantity);
+        assertEquals(expResult, result);
+
+        //first test data (invalid)
+        String quantity1 = "20";
+        boolean expResult1 = true;
+        boolean result1 = AddCart.validateQuantity(quantity1);
+        assertEquals(expResult1, result1);
+
+    }
+
+    /**
+     * Test of validateLargeQuantity method, of class AddCart.
+     */
+    @Test
+    public void testValidateLargeQuantity() {
+        System.out.println("validateLargeQuantity");
+
+        //first test data (valid)
+        String quantity = "30";
+        boolean expResult = true;
+        boolean result = AddCart.validateLargeQuantity(quantity);
+        assertEquals(expResult, result);
+
+        //second test data (invalid)
+        String quantity1 = "100";
+        boolean expResult1 = false;
+        boolean result1 = AddCart.validateLargeQuantity(quantity1);
+        assertEquals(expResult1, result1);
+
+    }
+
+}
