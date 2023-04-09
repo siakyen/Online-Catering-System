@@ -4,6 +4,9 @@ public class Item {
     double itemPrice;
     String category;
     Boolean availability;
+    static int foodCount = 0;
+    static int beverageCount = 0;
+    static int dessertCount = 0;
 
     public Item() {
     }
@@ -13,7 +16,26 @@ public class Item {
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.category = category;
+        if (category.equalsIgnoreCase("FOOD")) {
+            foodCount++;
+        } else if (category.equalsIgnoreCase("Beverage")) {
+            beverageCount++;
+        } else {
+            dessertCount++;
+        }
         this.availability = true;
+    }
+
+    public String assignItemID(String category) {
+        if (category.equalsIgnoreCase("FOOD")) {
+            return String.format("F" + "%03d",++foodCount);
+        } else if (category.equalsIgnoreCase("Beverage")) {
+            return String.format("B" + "%03d",++beverageCount);
+        } else if (category.equalsIgnoreCase("Dessert")){
+            return String.format("D" + "%03d",++dessertCount);
+        }else{
+            return null;
+        }
     }
 
     public String getItemID() {
