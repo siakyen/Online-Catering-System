@@ -1,0 +1,160 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package agile;
+
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ *
+ * @author xiaky
+ */
+public class SearchOrderHistoryTest {
+
+    static Order order = null;
+    static List<Order> orderList = new ArrayList<>();
+
+    public SearchOrderHistoryTest() {
+    }
+
+    @BeforeClass
+    public static void setUpClass() {
+        List<Item> foodList = new ArrayList<>();
+
+        Item food1 = new Item("F001", "Fry Rice", 13.5, "Food");
+        Item food2 = new Item("F002", "Chicken Rice", 22.5, "Food");
+        Item food3 = new Item("F003", "Mee Goreng", 10.0, "Food");
+        Item beverage1 = new Item("B001", "Green tea", 2.5, "Beverage");
+        Item beverage2 = new Item("B002", "Lemon juice", 6.5, "Beverage");
+        Item beverage3 = new Item("B003", "Bubble tea", 8.5, "Beverage");
+        Item dessert1 = new Item("D001", "Oreo Cake", 11.9, "Dessert");
+        Item dessert2 = new Item("D002", "Baked cheesecake", 13.9, "Dessert");
+        Item dessert3 = new Item("D003", "Matcha Cake", 11.9, "Dessert");
+        food2.setAvailability(Boolean.FALSE);
+        beverage2.setAvailability(Boolean.FALSE);
+        foodList.add(food1);
+        foodList.add(food2);
+        foodList.add(food3);
+        foodList.add(beverage1);
+        foodList.add(beverage2);
+        foodList.add(beverage3);
+        foodList.add(dessert1);
+        foodList.add(dessert2);
+        foodList.add(dessert3);
+        OrderItem items1 = new OrderItem(foodList.get(2), 2);
+        OrderItem items2 = new OrderItem(foodList.get(1), 1);
+        List<OrderItem> list1 = new ArrayList<>();
+        list1.add(items1);
+        list1.add(items2);
+        Order order = new Order("O001", list1, "Completed", LocalDate.of(2023, 1, 4));
+        orderList.add(order);
+        System.out.println("Setting it up !");
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+        System.out.println("\nAll the test is done !");
+    }
+
+    @Before
+    public void setUp() {
+        System.out.printf("\nTesting: ");
+    }
+
+    @After
+    public void tearDown() {
+        System.out.println("This testing is completed");
+    }
+
+    /**
+     * Test of searchOrderhistory method, of class SearchOrderHistory.
+     */
+    @Test
+    public void testSearchOrderhistory() {
+        //First test data(Valid)
+        System.out.println("Valid Order history");
+        String day = "4";
+        String month = "1";
+        String year = "2023";
+        Order expectedResult = orderList.get(0);
+        Order result = SearchOrderHistory.searchOrderhistory(orderList, day, month, year);
+        assertEquals(expectedResult, result);
+
+        //Second test data(Invalid)
+        System.out.println("Invalid Order history");
+
+        String day2 = "5";
+        String month2 = "12";
+        String year2 = "2023";
+        Order expectedResult2 = null;
+        Order result2 = SearchOrderHistory.searchOrderhistory(orderList, day2, month2, year2);
+        assertEquals(expectedResult2, result2);
+    }
+
+    /**
+     * Test of validateDay method, of class SearchOrderHistory.
+     */
+    @Test
+    public void testValidateDay() {
+        System.out.println("Validate Day");
+        String validDay = "4";
+        boolean expResult = true;
+        boolean validResult = SearchOrderHistory.validateDay(validDay);
+        assertEquals(expResult, validResult);
+
+        String invalidDay = "32";
+        boolean expResult2 = false;
+        boolean invalidResult = SearchOrderHistory.validateDay(invalidDay);
+        assertEquals(expResult2, invalidResult);
+
+    }
+
+    /**
+     * Test of validateMonth method, of class SearchOrderHistory.
+     */
+    @Test
+    public void testValidateMonth() {
+        System.out.println("Validate Month");
+        String validDay = "4";
+        String validMonth = "1";
+        boolean expResult = true;
+        boolean result = SearchOrderHistory.validateMonth(validDay, validMonth);
+        assertEquals(expResult, result);
+
+        String validDay2 = "4";
+        String inValidMonth2 = "13";
+        boolean expResult2 = false;
+        boolean result2 = SearchOrderHistory.validateMonth(validDay2, inValidMonth2);
+        assertEquals(expResult2, result2);
+
+    }
+
+    /**
+     * Test of validateYear method, of class SearchOrderHistory.
+     */
+    @Test
+    public void testValidateYear() {
+        System.out.println("Validate Year");
+        String validYear = "2023";
+        boolean expResult = true;
+        boolean result = SearchOrderHistory.validateYear(validYear);
+        assertEquals(expResult, result);
+
+        String invalidYear = "20223";
+        boolean expResult2 = false;
+        boolean result2 = SearchOrderHistory.validateYear(invalidYear);
+        assertEquals(expResult2, result2);
+    }
+
+}
