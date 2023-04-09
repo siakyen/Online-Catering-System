@@ -1,0 +1,86 @@
+
+package sample;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+
+public class SearchItemByIdTest {
+    
+     static List<Item> foodList = new ArrayList<>();
+    
+    public SearchItemByIdTest() {
+    }
+    
+    @BeforeClass
+    public static void setUpClass() {
+        
+        Item food1 = new Item("F001", "Fry Rice", 13.5, "Food");
+        Item food2 = new Item("F002", "Chicken Rice", 22.5, "Food");
+        Item food3 = new Item("F003", "Mee Goreng", 10.0, "Food");
+        Item beverage1 = new Item("B001", "Green tea", 2.5, "Beverage");
+        Item beverage2 = new Item("B002", "Lemon juice", 6.5, "Beverage");
+        Item beverage3 = new Item("B003", "Bubble tea", 8.5, "Beverage");
+        Item dessert1 = new Item("D001", "Oreo Cake", 11.9, "Dessert");
+        Item dessert2 = new Item("D002", "Baked cheesecake", 13.9, "Dessert");
+        Item dessert3 = new Item("D003", "Matcha Cake", 11.9, "Dessert");
+
+        food2.setAvailability(Boolean.FALSE);
+        beverage2.setAvailability(Boolean.FALSE);
+
+        foodList.add(food1);
+        foodList.add(food2);
+        foodList.add(food3);
+        foodList.add(beverage1);
+        foodList.add(beverage2);
+        foodList.add(beverage3);
+        foodList.add(dessert1);
+        foodList.add(dessert2);
+        foodList.add(dessert3);
+        
+        System.out.println("** All test start here **");
+    }
+    
+    @AfterClass
+    public static void tearDownClass() {
+        System.out.println("\n** All test end here **");
+    }
+    
+    @Before
+    public void setUp() {
+        System.out.println("\n** 1 Of the test start here **");
+    }
+    
+    @After
+    public void tearDown() {
+        System.out.println("** 1 Of the test end here **");
+    }
+
+    /**
+     * Test of searchItem method, of class SearchItemById.
+     */
+    @Test
+    public void testSearchItem() {
+        System.out.println("searchItem");
+        
+        //first test data (valid)
+        String entered = "F001";
+        Item expResult = foodList.get(0);
+        Item result = SearchItemById.searchItem(foodList, entered);
+        assertEquals(expResult, result);
+        
+        //first test data (valid)
+        String entered1 = "F000";
+        Item expResult1 = null;
+        Item result1 = SearchItemById.searchItem(foodList, entered1);
+        assertEquals(expResult1, result1);
+
+    }
+    
+}
