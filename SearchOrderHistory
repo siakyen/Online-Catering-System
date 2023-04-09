@@ -1,0 +1,138 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package agile;
+
+import static agile.Agile.validateDay;
+import static agile.Agile.validateMonth;
+import static agile.Agile.validateYear;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Scanner;
+
+/**
+ *
+ * @author xiaky
+ */
+public class SearchOrderHistory {
+
+    public static Order searchOrderhistory(List<Order> orderList, String dayS, String monthS, String yearS) {
+        Scanner kb = new Scanner(System.in);
+        boolean found = false;
+        int day, month, year;
+        Order orderN = null;
+
+        if (orderList.isEmpty()) {
+            System.out.println("** There is no any order made **");
+        } else {
+            day = Integer.parseInt(dayS);
+            month = Integer.parseInt(monthS);
+            year = Integer.parseInt(yearS);
+            LocalDate date = LocalDate.of(year, month, day);
+            for (Order order : orderList) {
+                double totalBeforeTax = 0;
+                double serviceTax;
+                double totalAmount = 0.0;
+                if (order.date.isEqual(date)) {
+                    orderN = order;
+                    System.out.println("========================================================================");
+                    System.out.printf("| ID:%4s                     Order History          Status: %9s |\n", order.id, order.status);
+                    found = true;
+
+                    System.out.println("========================================================================");
+                    System.out.println("| Item ID |        Item Name       | Quantity | Unit Price | Sub-Total |");
+                    System.out.println("|----------------------------------------------------------------------|");
+                    for (OrderItem orderItem : order.getItems()) {
+                        System.out.printf("|  %5s  |       %-17s|%5d     |   %5.2f    | %7.2f   |\n", orderItem.getItem().getItemID(), orderItem.getItem().getItemName(), orderItem.getQuantity(), orderItem.getItem().getItemPrice(), orderItem.getSubtotal());
+                        totalBeforeTax += orderItem.getSubtotal();
+                    }
+                    serviceTax = totalBeforeTax * 0.06;
+                    totalAmount = (totalBeforeTax * 1.06) + 2;
+                    System.out.println("|----------------------------------------------------------------------|");
+                    System.out.printf("| Service Tax (6%%):                                         RM  %3.2f   |\n", serviceTax);
+                    System.out.println("| Container Fee   :                                         RM  2.00   |");
+                    System.out.println("========================================================================");
+                    System.out.printf("| Total amount    :                                         RM %3.2f   |\n", totalAmount);
+                    System.out.println("========================================================================\n\n");
+                }
+
+            }
+            if (found == false) {
+                System.out.println("==========================================================================");
+                System.out.printf("|                              Order History                             |\n");
+                System.out.println("==========================================================================");
+                System.out.println("|                             No record found                            |");
+                System.out.println("==========================================================================");
+
+            }
+        }
+        return orderN;
+    }
+
+//method for validation
+    public static boolean validateDay(String day) {
+
+        //check are all digits?
+        for (int i = 0; i < day.length(); i++) {
+            if (Character.isDigit(day.charAt(i)) == false) {
+                return false;
+            }
+        }
+
+        int dayI = Integer.parseInt(day);
+
+        if (dayI <= 0 || dayI > 31) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean validateMonth(String day, String month) {
+
+        //check are all digits?
+        for (int i = 0; i < month.length(); i++) {
+            if (Character.isDigit(month.charAt(i)) == false) {
+                return false;
+            }
+        }
+
+        int monthI = Integer.parseInt(month);
+        int dayI = Integer.parseInt(day);
+
+        if (monthI <= 0 || monthI > 12) {
+            return false;
+        }
+
+        if (monthI == 2) {
+            if (dayI > 28) {
+                return false;
+            }
+        } else if (monthI == 4 || monthI == 6 || monthI == 9 || monthI == 11) {
+            if (dayI == 31) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean validateYear(String year) {
+
+        //check are all digits?
+        for (int i = 0; i < year.length(); i++) {
+            if (Character.isDigit(year.charAt(i)) == false) {
+                return false;
+            }
+        }
+
+        //check length
+        if (year.length() != 4) {
+            return false;
+        }
+
+        return true;
+    }
+}
