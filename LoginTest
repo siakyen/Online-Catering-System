@@ -46,8 +46,7 @@ public class LoginTest {
     public void tearDown() {
         System.out.println("** 1 Of the test end here **");
     }
-
-
+    
     /**
      * Test of validateAccount method, of class Login.
      */
@@ -92,6 +91,29 @@ public class LoginTest {
         boolean result2 = Login.validateActiveAcc(enteredUN2, enteredPS2, custList);
         assertEquals(expResult2, result2);
         
+    }
+    
+     /**
+     * Test of validateLogin method, of class login.
+     */
+    @Test
+    public void testValidateLogin() {
+        System.out.println("validateLogin");
+
+        //first test data (valid)
+        String enteredUN = "wingyan123";
+        String enteredPS = "Wingyan123";
+        Customer expResult = custList.get(0);
+        Customer result = Login.validateLogin(custList, cust, enteredUN, enteredPS);
+        assertEquals(expResult, result);
+        
+        //second test data (invalid)
+        String enteredUN1 = "wingy11";
+        String enteredPS1 = "Wing11";
+        Customer expResult1 = null;
+        Customer result1 = Login.validateLogin(custList, cust, enteredUN1, enteredPS1);
+        assertEquals(expResult1, result1);
+
     }
 
 }
