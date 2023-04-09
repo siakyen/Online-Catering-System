@@ -1,0 +1,48 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sample;
+
+import java.util.List;
+import java.util.Scanner;
+
+/**
+ *
+ * @author Wing Yan Phoon
+ */
+public class SearchItemById {
+
+    //search item
+    public static Item searchItem(List<Item> foodList, String search) {
+        String choiceS;
+        Item selectedItem = new Item();
+
+        int found = 0;
+
+        do {
+            choiceS = search;
+
+            for (Item item : foodList) {
+                if (choiceS.equalsIgnoreCase(item.getItemID())) {
+                    System.out.println("\n+=====================================================+");
+                    System.out.printf("| %-19s %-20s %-11s|\n", "Item ID", "Item Name", "Item Price");
+                    System.out.println("+-----------------------------------------------------+");
+                    System.out.printf("| %-19s %-20s RM%-9.2f|\n", item.getItemID(), item.getItemName(), item.itemPrice);
+                    System.out.println("+=====================================================+");
+                    found++;
+                    selectedItem = item;
+                }
+
+            }
+
+            if (found == 0) {
+                System.out.println("** Sorry there is no such item. Please Enter Again **\n\n");
+                return null;
+            }
+
+        } while (found == 0);
+        return selectedItem;
+    }
+}
