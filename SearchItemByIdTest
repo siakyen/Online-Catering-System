@@ -75,7 +75,7 @@ public class SearchItemByIdTest {
         Item result = SearchItemById.searchItem(foodList, entered);
         assertEquals(expResult, result);
         
-        //first test data (valid)
+        //first test data (invalid)
         String entered1 = "F000";
         Item expResult1 = null;
         Item result1 = SearchItemById.searchItem(foodList, entered1);
