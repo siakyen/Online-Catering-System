@@ -8,10 +8,7 @@ package sample;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- *
- * @author Wing Yan Phoon
- */
+
 public class SearchItemById {
 
     //search item
