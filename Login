@@ -2,6 +2,7 @@
 package sample;
 
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -10,6 +11,28 @@ import java.util.List;
 public class Login {
 
     //validate login function
+    public static Customer validateLogin(List<Customer> custList, Customer cust, String enteredUN, String enteredPS) {
+
+       // do {
+            if (enteredPS.isEmpty() || enteredUN.isEmpty()) {
+                System.out.print("** Please fill in the username and password **\n\n");
+            } else if (!validateAccount(enteredUN, enteredPS, custList)) {
+                System.out.print("** The username or password is incorrect, please try again **\n\n");
+            } else if (!validateActiveAcc(enteredUN, enteredPS, custList)) {
+                System.out.print("** This account is inactive, please activate it before login **\n\n");
+            }
+        //} while (!validateAccount(enteredUN, enteredPS, custList) || !validateActiveAcc(enteredUN, enteredPS, custList));
+
+        
+
+        for (Customer cus : custList) {
+            if (cus.getAcc().getUsername().equalsIgnoreCase(enteredUN)) {
+                cust = cus;
+                System.out.print("\n** Login successfully! **\n");
+            }
+        }
+        return cust;
+    }
     
     public static boolean validateAccount(String enteredUN, String enteredPS, List<Customer> custList) {
         for (Customer cust : custList) {
