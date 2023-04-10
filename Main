@@ -317,27 +317,27 @@ public class AgileAsg {
             System.out.println("------------------------------------");
             System.out.print("Please Enter Item Name :");
             itemName = scanner.nextLine();
-            
+
             if (itemName.isEmpty()) {
                 System.out.println("** Please fill in the field **");
             }
         } while (itemName.isEmpty());
-        
+
         System.out.println("\n+=====================================================+");
-            System.out.printf("| %-19s %-20s %-11s|\n", "Item ID", "Item Name", "Item Price");
-            System.out.println("+-----------------------------------------------------+");
-            
+        System.out.printf("| %-19s %-20s %-11s|\n", "Item ID", "Item Name", "Item Price");
+        System.out.println("+-----------------------------------------------------+");
+
         for (Item item : foodList) {
             if (item.getItemName().toLowerCase().contains(itemName.toLowerCase())) {
                 System.out.printf("| %-19s %-20s RM%-9.2f|\n", item.getItemID(), item.getItemName(), item.itemPrice);
                 found = true;
             }
         }
-        
-        if(!found){
+
+        if (!found) {
             System.out.println("|                 **No such items. **                 |");
         }
-        
+
         System.out.println("+=====================================================+");
     }
 
@@ -1367,11 +1367,12 @@ public class AgileAsg {
     }
 
     public static boolean validatePrice(String price) {
-        if (price.charAt(0) == '0') {
+
+        if (price.length() < 4) {
             return false;
         }
 
-        if (price.length() < 4) {
+        if (price.charAt(0) == '0') {
             return false;
         }
 
